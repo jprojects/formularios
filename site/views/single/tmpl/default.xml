@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Single Layout">
+		<message>
+			<![CDATA[Single Layout]]>
+		</message>
+	</layout>
+		
+        <fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_formularios/models/fields">
+			<field 
+				name="formId" 
+				type="sql"
+				default=""
+				label="Formulari"
+				query="SELECT id, name FROM #__formularios_forms"
+				key_field="id"
+				value_field="name"
+				required="true"
+			>
+			<option value="">Selecciona una formulari</option>
+			</field>
+		</fieldset>
+	</fields>
+	
+</metadata>

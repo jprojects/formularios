@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+    <name>Formularios</name>
+    <creationDate>2018-03-26</creationDate>
+    <copyright>2018 aficat</copyright>
+    <license>Licencia Pública General GNU versión 2 o posterior. Consulte LICENSE.txt</license>
+    <author>aficat</author>
+    <authorEmail>kim@aficat.com</authorEmail>
+    <authorUrl>http://www.afi.cat</authorUrl>
+    <version>CVS: 1.0.0</version>
+    <description>Gestor de formularios para Frigorifics Ferrer</description>   
+    
+    <install> <!-- Runs on install -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <update> <!-- Runs on update -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/update.mysql.utf8.sql</file>
+        </sql>
+    </update>
+    <uninstall> <!-- Runs on uninstall -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>formularios.php</filename>
+        <filename>controller.php</filename>
+        <filename>metadata.xml</filename>
+        <filename>router.php</filename>
+        <folder>views</folder>
+        <folder>models</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+        <folder>assets</folder>
+    </files>
+    <media destination="com_formularios" folder="media">
+        <folder>js</folder>
+        <folder>css</folder>
+    </media>
+    <languages folder="site/languages">
+        
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.ini</language>
+    </languages>
+    <administration>
+        <menu>COM_FORMULARIOS</menu>
+        <submenu>
+            
+			<menu link="option=com_formularios&amp;view=forms" view="forms" alt="Formularios/Forms">COM_FORMULARIOS_TITLE_FORMS</menu>
+
+        </submenu>
+        <files folder="administrator">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+            <filename>formularios.php</filename>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+        </files>
+        <languages folder="administrator/languages">
+            
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.ini</language>
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.sys.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.sys.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.sys.ini</language>
+        </languages>
+    </administration>
+    <config>
+        <fields name="params">
+            <fieldset name="component">
+                <field name="save_history" default="0" />
+            </fieldset>
+        </fields>
+    </config>
+    <plugins>
+        <plugin group="search" plugin="formularios"/>
+    </plugins>
+    
+</extension>

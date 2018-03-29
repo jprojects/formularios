@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <name>Formularios</name>
+    <menu>
+        <options var="view">
+            <option value="form" name="Gruped forms" msg="Esta es la vista que genera la vista formularios agrupados." />
+            <option value="single" name="Single form" msg="Esta es la vista que genera un formulario único." />
+        </options>
+        </options>
+    </menu>
+</metadata>
