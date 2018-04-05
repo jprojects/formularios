@@ -74,19 +74,22 @@ function recaptchaCallback() {
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
 					  	<div class="form-group">
-							<label for="jform_<?= $item->field_name; ?>"><?= $item->field_label; ?>: <?= $star; ?></label>
+							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
 							
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
-							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= JText::_($item->field_msg); ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
-							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= $item->field_hint; ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= JText::_($item->field_msg); ?>"></textarea>
+							
+							<?php elseif($item->field_type == 'file') : ?>
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?= $required; ?> data-msg="<?= JText::_($item->field_msg); ?>" />
 							
 							<?php elseif($item->field_type == 'select') : ?>
-							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
+							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= JText::_($item->field_msg); ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
-							<option value="<?= $value; ?>"><?= $value; ?></option>
+							<option value="<?= $value; ?>"><?= JText::_($value); ?></option>
 							<?php endforeach; ?>
 							</select>
 							<?php endif; ?>
