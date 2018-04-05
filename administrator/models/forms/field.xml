@@ -28,7 +28,8 @@
     <option value="text">COM_FORMULARIOS_TYPE_TEXT</option>
     <option value="select">COM_FORMULARIOS_TYPE_SELECT</option>
     <option value="textarea">COM_FORMULARIOS_TYPE_AREA</option>
-    <option value="email">Email</option>
+    <option value="email">COM_FORMULARIOS_TYPE_EMAIL</option>
+    <option value="file">COM_FORMULARIOS_TYPE_FILE</option>
     </field>
     <field 
     	name="field_required" 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.0" method="upgrade">
-    <name>Formularios</name>
+    <name>com_formularios</name>
     <creationDate>2018-03-26</creationDate>
     <copyright>2018 aficat</copyright>
     <license>Licencia Pública General GNU versión 2 o posterior. Consulte LICENSE.txt</license>
@@ -8,7 +8,9 @@
     <authorEmail>kim@aficat.com</authorEmail>
     <authorUrl>http://www.afi.cat</authorUrl>
     <version>CVS: 1.0.0</version>
-    <description>Gestor de formularios para Frigorifics Ferrer</description>   
+    <description>Gestor de formularios para Frigorifics Ferrer</description>
+    
+    
     
     <install> <!-- Runs on install -->
         <sql>
@@ -30,13 +32,11 @@
         <filename>index.html</filename>
         <filename>formularios.php</filename>
         <filename>controller.php</filename>
-        <filename>metadata.xml</filename>
         <filename>router.php</filename>
         <folder>views</folder>
         <folder>models</folder>
         <folder>controllers</folder>
         <folder>helpers</folder>
-        <folder>assets</folder>
     </files>
     <media destination="com_formularios" folder="media">
         <folder>js</folder>
@@ -91,3 +91,5 @@
     </plugins>
     
 </extension>
+<!-- Component built by the Joomla Component Creator -->
+<!-- http://www.component-creator.com/ -->

@@ -50,6 +50,9 @@ class FormulariosController extends JControllerLegacy
      	$data 	= $app->input->post->get('jform', array(), 'array');
      	$save	= $send = false;
      	$return = base64_decode($data['return']);
+     	$attach = array();
+     	$files  = array();
+     	$notify = '';
      	
      	$captchaEnabled = $params->get('reCaptcha', 0);
      	
@@ -71,33 +74,64 @@ class FormulariosController extends JControllerLegacy
         }
         
         if(intval($responseKeys["success"]) == 1 || $captchaEnabled == 0) {
-		 	//recollim dades necessaries
+		 	//recollim dades necessaries del formulari pare
 		 	$db->setQuery('SELECT email, name FROM #__formularios_forms WHERE id = '.$data['type']);
 		 	$row = $db->loadObject();
 		 	
+		 	//recollim tota la informació dels camps del formulari
+		 	$db->setQuery('SELECT * FROM #__formularios_fields WHERE formId = '.$data['type'].' AND state = 1');
+		 	$fields = $db->loadObjectList();		 
+		 	
 		 	$type = $data['type'];
 		 	
-		 	//send email
+		 	
+		 	foreach($fields as $field) { 
+		 		//comprovem si hi han camps de tipus file
+		 		if($field->field_type == 'file') {
+		 			
+				 	$files[] = $field->field_name;
+				 	unset($data[$field->field_name]);				 	
+				 	
+				 	if(count($files)) {
+				 		$filename = $this->upload($field->field_name);	
+				 		$attach[] = JPATH_ROOT."/tmp/".$filename;	 		
+				 	}
+			 	}			 	
+			 	//comprovem si hi ha camp tipus mail
+			 	if($field->field_type == 'email') {
+			 		$notify .= $data[$field->field_name];
+			 	}
+		 	}
+		 	
+		 	//enviem l'email
 		 	unset($data['return']);
 		 	unset($data['type']);
+		 	
 		 	$subject = 'Ferrer: Nou email rebut desde el formulari '.$row->name;
-		 	$body      = "<p>Aquestes son les dades rebudes desde el formular.</p>";
+		 	$body    = "<p>Aquestes son les dades rebudes desde el formulari.</p>";
 		 	foreach($data as $k => $v) {
-		 		$body .= $k.": ".$v."<br>";
+		 		if($v != '') {
+		 			$body .= $k.": ".$v."<br>";
+		 		}
 		 	}
 			
-		 	$send = $this->enviar($subject, $body, $row->email);
+		 	//$send = $this->enviar($subject, $body, $row->email, $attach);
+		 	$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);		 			 		
 		 	
-		 	//insert body into database
-		 	$form 				= new stdClass();
-			$form->formId 		= $type;
-			$form->data    		= date('Y-m-d H:i:s');
-			$form->message    	= $body;
+		 	//insertem el missatge a la base de dades
+		 	$form 					= new stdClass();
+			$form->formId 			= $type;
+			$form->data_missatge  	= date('Y-m-d H:i:s');
+			$form->message    		= $body;
 			$save = $db->insertObject('#__formularios_stored', $form);
 		
 			if($send && $save) {
 				$msg = JText::_('COM_FORMULARIOS_SUCCESS_SEND_MSG');
 				$type = 'info';
+				//enviem confirmació si hi ha email
+				if($notify != '') {
+					$this->enviar($subject, $body, $notify, $attach);
+				}
 			} else {
 				$msg = JText::_('COM_FORMULARIOS_ERROR_SEND_MSG');
 				$type = 'error';
@@ -107,11 +141,18 @@ class FormulariosController extends JControllerLegacy
 		   	$type = 'error';
 		}
 		
+		//si hem pujat arxius els esborrem perque ja estan enviats
+	 	if(count($attach)) {
+	 		foreach($attach as $att) { 
+	 			unlink($att);
+	 		}
+	 	}
+		
 		$this->setRedirect($return, $msg, $type);
 			
 	}
 	
-	public function enviar($subject, $body, $email, $attach='') 
+	public function enviar($subject, $body, $email, $attach=array()) 
 	{
 		$mailer 	= JFactory::getMailer();
 		$config 	= JFactory::getConfig();
@@ -129,10 +170,34 @@ class FormulariosController extends JControllerLegacy
         $mailer->Encoding = 'base64';
         $mailer->setBody( $body );   
         
-        if(attach != '') {
-        	$mailer->addAttachment(JPATH_ROOT.'/'.$attach.'.pdf');     
+        if(count($attach)) {
+        	foreach($attach as $att) {
+        		$mailer->addAttachment($att);
+        	}     
         }
         
 		return $mailer->Send();			
+	}
+	
+	public function upload($fieldname)
+	{   
+		$jinput  = JFactory::getApplication()->input;
+        $file    = $jinput->files->get('jform');  
+       	$allowed = array('pdf', 'xlsm', 'xls', 'doc', 'docx', 'xlsx', 'odt', 'jpg', 'png', 'jpeg');
+
+    	jimport('joomla.filesystem.file');
+     
+    	$filename = JFile::makeSafe($file[$fieldname]['name']);
+
+    	$src  = $file[$fieldname]['tmp_name'];
+    	$dest = JPATH_ROOT."/tmp/".$filename;
+    	$extension = strtolower(JFile::getExt($filename)); 
+
+    	if ( in_array($extension, $allowed) ) {
+       		JFile::upload($src, $dest);
+       		return $filename;
+    	} else {
+    		return false;
+    	}
 	}
 }

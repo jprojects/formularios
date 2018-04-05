@@ -29,7 +29,7 @@ PRIMARY KEY (`id`)
 CREATE TABLE IF NOT EXISTS `#__formularios_stored` (
 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 `formId` int(11)  NOT NULL ,
-`data` DATETIME NOT NULL ,
+`data_missatge` DATETIME  NOT NULL ,
 `message` TEXT  NOT NULL ,
 PRIMARY KEY (`id`)
 ) DEFAULT COLLATE=utf8mb4_unicode_ci;

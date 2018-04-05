@@ -69,7 +69,8 @@ function recaptchaCallback() {
 					<div id="sendmessage">
 						 <!-- message -->
 					</div>
-					<form action="/index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm">
+					<form action="/index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
+						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
 
 						<div class="form-group">
@@ -90,7 +91,10 @@ function recaptchaCallback() {
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
-							<textarea name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= $item->field_hint; ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= $item->field_hint; ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+							
+							<?php elseif($item->field_type == 'file') : ?>
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							
 							<?php elseif($item->field_type == 'select') : ?>
 							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
