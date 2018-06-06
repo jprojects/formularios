@@ -63,6 +63,7 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 				<?php echo $this->form->renderField('field_values'); ?>
 				<?php echo $this->form->renderField('field_msg'); ?>
 				<?php echo $this->form->renderField('field_required'); ?>
+				<?php echo $this->form->renderField('field_column'); ?>
 				<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
 				<?php echo $this->form->renderField('state'); ?>
 				<input type="hidden" name="jform[checked_out]" value="<?php echo $this->item->checked_out; ?>" />

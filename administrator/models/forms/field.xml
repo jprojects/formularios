@@ -15,6 +15,7 @@
     <option value="">COM_FORMULARIOS_SELECT_OPTION</option>
 	</field>
     <field name="field_name" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDNAME" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDNAME" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDNAME"/>
+    <field name="field_column" type="text" default="12" label="COM_FORMULARIOS_FORM_LBL_FORM_COL" description="COM_FORMULARIOS_FORM_DESC_FORM_COL" />
     <field 
     	name="field_type" 
     	filter="safehtml" 

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__formularios_fields` (
 `field_type` VARCHAR(150)  NOT NULL ,
 `field_long` VARCHAR(150)  NOT NULL ,
 `field_required` VARCHAR(150)  NOT NULL ,
+`field_column` INT(5)  NOT NULL DEFAULT 12,
 `ordering` INT(11)  NOT NULL ,
 `state` TINYINT(1)  NOT NULL ,
 `checked_out` INT(11)  NOT NULL ,

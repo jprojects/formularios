@@ -10,11 +10,13 @@
  // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 $model  = $this->getModel();
-$user = JFactory::getUser();
+$user   = JFactory::getUser();
 $formid = JFactory::getApplication()->input->get('formId', 1);
+$lang   = JFactory::getLanguage()->getTag();
+$lg     = explode('-', $lang);
 
 if($model->isLogin($formid) && $user->guest) {
-	$returnurl = JRoute::_('index.php?option=com_users&view=login&return='.base64_encode(JUri::current()), false);
+	$returnurl = JRoute::_('index.php?option=com_users&view=login&return='.base64_encode(JUri::current()).'&Itemid=465', false);
 	$app->redirect($returnurl, JText::_('COM_FORMULARIOS_LOGIN_BEFORE'));
 }
 
@@ -54,12 +56,12 @@ function recaptchaCallback() {
 <?php endif; ?>
 </script>
 
-<section id="section-contact" class="section appear clearfix">
+<section id="section-contact" class="section appear clearfix" style="background-image: url(images/logo-vermell-<?= $lg[0]; ?>.jpg);">
 	<div class="container">			
 		<div class="row">
 			<div class="col-md-offset-3 col-md-6">
 				<div class="section-header">
-					<h2 class="section-heading"><?= $model->getFormTitle($formid); ?></h2>
+					<h2 class="section-heading"><?= JText::_('COM_FORMULARIOS_WELCOME'); ?></h2>
 				</div>
 			</div>
 		</div>
@@ -85,41 +87,45 @@ function recaptchaCallback() {
 						<?php foreach($model->getItem() as $item) : ?>
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
+						<div class="col-xs-<?= $item->field_column; ?>">
 					  	<div class="form-group">
 							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
 							
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
-							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= JText::_($item->field_msg); ?>" />
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
-							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= JText::_($item->field_msg); ?>"></textarea>
+							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
 							
 							<?php elseif($item->field_type == 'file') : ?>
-							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?= $required; ?> data-msg="<?= JText::_($item->field_msg); ?>" />
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							
 							<?php elseif($item->field_type == 'select') : ?>
-							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= JText::_($item->field_msg); ?>">
+							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
-							<option value="<?= $value; ?>"><?= JText::_($value); ?></option>
+							<option value="<?= $value; ?>"><?= $value; ?></option>
 							<?php endforeach; ?>
 							</select>
 							<?php endif; ?>
 							
 							<div class="validation"></div>
 					  	</div>
-					  	<?php endforeach; ?>
-						<div class="checkbox nopad">			  	
-							<label>
-						  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', '#'); ?>.</small>
-							</label>
 					  	</div>
-					  	<?php if($captchaEnabled == 1) : ?>
-					  	<div class="form-group">
-			   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
-						</div>
-						<?php endif; ?>
-					  	<button type="submit" disabled="true" class="line-btn green submit">ENVIAR</button>
+					  	<?php endforeach; ?>
+					  	<div class="col-xs-12">
+							<div class="checkbox nopad">			  	
+								<label>
+							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', '#'); ?>.</small>
+								</label>
+						  	</div>
+						  	<?php if($captchaEnabled == 1) : ?>
+						  	<div class="form-group">
+				   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
+							</div>
+							<?php endif; ?>
+						  	<button type="submit" disabled="true" class="line-btn green submit"><?= JText::_('ENVIAR'); ?></button>
+					  	</div>
 					</form>
 
 				</div>
@@ -130,5 +136,5 @@ function recaptchaCallback() {
 	</div>
 </section>
 <div class="col-md-4 hidden-xs hidden-sm" style="z-index:10;position:absolute;right:0;top:0;">
-	<img src="components/com_formularios/assets/images/90anys.png">
+	<!--<img src="components/com_formularios/assets/images/90anys.png">-->
 </div>
