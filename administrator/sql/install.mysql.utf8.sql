@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS `#__formularios_forms` (
 `email` VARCHAR(150)  NOT NULL ,
 `ordering` INT(11)  NOT NULL ,
 `state` TINYINT(1)  NOT NULL ,
+`miscelanea` TEXT  NOT NULL ,
 `checked_out` INT(11)  NOT NULL ,
 `checked_out_time` DATETIME NOT NULL ,
 `created_by` INT(11)  NOT NULL ,

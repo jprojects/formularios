@@ -23,5 +23,6 @@
     <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
     <field name="created_by" type="createdby" default="0" label="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY" description="COM_FORMULARIOS_FORM_DESC_FORM_CREATED_BY" hidden="true" hint="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY"/>
     <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
+    <field name="miscelanea" type="editor" label="COM_FORMULARIOS_FORM_LBL_FORM_MISC" filter="safehtml" description="COM_FORMULARIOS_FORM_DESC_FORM_MISC" class="inputbox" labelclass="control-label"/>
   </fieldset>
 </form>

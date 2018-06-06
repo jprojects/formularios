@@ -54,7 +54,7 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 			<div class="span10 form-horizontal">
 				<fieldset class="adminform">
 
-									<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
+				<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
 				<?php echo $this->form->renderField('name'); ?>
 				<?php echo $this->form->renderField('email'); ?>
 				<?php echo $this->form->renderField('combo'); ?>
@@ -66,12 +66,13 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 
 				<?php echo $this->form->renderField('created_by'); ?>
 
-					<?php if ($this->state->params->get('save_history', 1)) : ?>
-					<div class="control-group">
-						<div class="control-label"><?php echo $this->form->getLabel('version_note'); ?></div>
-						<div class="controls"><?php echo $this->form->getInput('version_note'); ?></div>
-					</div>
-					<?php endif; ?>
+				<?php if ($this->state->params->get('save_history', 1)) : ?>
+				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('version_note'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('version_note'); ?></div>
+				</div>
+				<?php endif; ?>
+				<?php echo $this->form->renderField('miscelanea'); ?>
 				</fieldset>
 			</div>
 		</div>

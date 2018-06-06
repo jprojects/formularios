@@ -58,15 +58,21 @@ function recaptchaCallback() {
 
 <section id="section-contact" class="section appear clearfix" style="background-image: url(images/logo-vermell-<?= $lg[0]; ?>.jpg);">
 	<div class="container">			
-		<div class="row">
-			<div class="col-md-offset-3 col-md-6">
-				<div class="section-header">
+		<div class="row">		
+			<div class="<?php if($model->getFormText($formid) == '') : ?>col-md-offset-3 col-md-6<?php else : ?>col-md-12<?php endif; ?>">
+				<div class="section-header" <?php if($model->getFormText($formid) != '') : ?>style="text-align:left;"<?php endif; ?>>
 					<h2 class="section-heading"><?= JText::_('COM_FORMULARIOS_WELCOME'); ?></h2>
 				</div>
-			</div>
+			</div>	
 		</div>
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<?php if($model->getFormText($formid) != '') : ?>
+			<div class="col-md-4">
+				<p></p>
+				<?= $model->getFormText($formid); ?>
+			</div>
+			<?php endif; ?>
+			<div class="<?php if($model->getFormText($formid) != '') : ?>col-md-8<?php else : ?>col-md-8 col-md-offset-2<?php endif; ?>">
 				<div class="cform" id="contact-form">
 					<div id="sendmessage">
 						 <!-- message -->
