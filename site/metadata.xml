@@ -5,6 +5,7 @@
         <options var="view">
             <option value="form" name="Gruped forms" msg="Esta es la vista que genera la vista formularios agrupados." />
             <option value="single" name="Single form" msg="Esta es la vista que genera un formulario único." />
+            <option value="selector" name="Selector form" msg="Esta es la vista que genera un campo que selecciona otros formularios." />
         </options>
         </options>
     </menu>

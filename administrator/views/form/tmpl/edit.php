@@ -61,6 +61,7 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 				<?php echo $this->form->renderField('registered'); ?>
 				<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
 				<?php echo $this->form->renderField('state'); ?>
+				<?php echo $this->form->renderField('selector'); ?>
 				<input type="hidden" name="jform[checked_out]" value="<?php echo $this->item->checked_out; ?>" />
 				<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
 

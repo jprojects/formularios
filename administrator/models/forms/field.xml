@@ -45,8 +45,8 @@
     <option value="0">JNO</option>
     <option value="1">JYES</option>
     </field>
-    <field name="field_msg" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDMSG" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG"/>
-    <field name="field_label" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDLABEL" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL"/>
+    <field name="field_msg" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDMSG" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG"/>
+    <field name="field_label" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDLABEL" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL"/>
     <field name="field_hint" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDHINT" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDHINT" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDHINT"/>
     <field name="field_values" filter="safehtml" type="textarea" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDVALUES" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDVALUES" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDVALUES" rows="10" cols="5"/>
     <field name="ordering"/>

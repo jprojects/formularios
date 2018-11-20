@@ -19,6 +19,10 @@
       <option value="2">JARCHIVED</option>
       <option value="-2">JTRASHED</option>
     </field>
+    <field name="selector" default="0" type="radio" label="COM_FORMULARIOS_FORM_LBL_FORM_SELECTOR" description="COM_FORMULARIOS_FORM_DESC_FORM_SELECTOR" class="btn-group">
+      <option value="1">JYES</option>
+      <option value="0">JNO</option>
+    </field>
     <field name="checked_out" type="hidden" filter="unset"/>
     <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
     <field name="created_by" type="createdby" default="0" label="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY" description="COM_FORMULARIOS_FORM_DESC_FORM_CREATED_BY" hidden="true" hint="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY"/>
