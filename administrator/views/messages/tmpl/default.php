@@ -142,10 +142,11 @@ $sortFields = $this->getSortFields();
 					<?php echo $item->name; ?>
 				</td>
 				<td>
-					<?php echo date('d-m-Y H:i', strtotime($item->data)); ?>
+					<?php echo date('d-m-Y H:i', strtotime($item->data_missatge)); ?>
 				</td>
 				<td>
-					<?php echo $item->message; ?>
+					<a onclick="jQuery('#message<?= $item->id; ?>').toggle();"><?php echo (substr($item->message, 0, 35) . '...'); ?></a>
+					<div id="message<?= $item->id; ?>" style="display:none;"><?= $item->message; ?></div>
 				</td>
 
 					</tr>
