@@ -3,6 +3,8 @@
   <fieldset>
     <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
     <field name="name" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_NAME" description="COM_FORMULARIOS_FORM_DESC_FORM_NAME" hint="COM_FORMULARIOS_FORM_LBL_FORM_NAME"/>
+    <field name="heading" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_HEADING" description="COM_FORMULARIOS_FORM_DESC_FORM_HEADING" hint="COM_FORMULARIOS_FORM_LBL_FORM_HEADING"/>
+    <field name="subheading" type="textarea" label="COM_FORMULARIOS_FORM_LBL_FORM_SUBHEADING" filter="safehtml" description="COM_FORMULARIOS_FORM_DESC_FORM_SUBHEADING" class="inputbox" labelclass="control-label"/>
     <field name="email" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL" description="COM_FORMULARIOS_FORM_DESC_FORM_EMAIL" hint="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL"/>
     <field name="combo" default="1" type="radio" label="COM_FORMULARIOS_FORM_LBL_FORM_COMBO" description="COM_FORMULARIOS_FORM_DESC_FORM_COMBO" class="btn-group">
       <option value="1">JYES</option>
@@ -27,6 +29,5 @@
     <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
     <field name="created_by" type="createdby" default="0" label="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY" description="COM_FORMULARIOS_FORM_DESC_FORM_CREATED_BY" hidden="true" hint="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY"/>
     <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
-    <field name="miscelanea" type="editor" label="COM_FORMULARIOS_FORM_LBL_FORM_MISC" filter="safehtml" description="COM_FORMULARIOS_FORM_DESC_FORM_MISC" class="inputbox" labelclass="control-label"/>
   </fieldset>
 </form>

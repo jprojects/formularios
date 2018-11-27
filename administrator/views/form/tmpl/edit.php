@@ -56,6 +56,8 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 
 				<input type="hidden" name="jform[id]" value="<?php echo $this->item->id; ?>" />
 				<?php echo $this->form->renderField('name'); ?>
+				<?php echo $this->form->renderField('heading'); ?>
+				<?php echo $this->form->renderField('subheading'); ?>
 				<?php echo $this->form->renderField('email'); ?>
 				<?php echo $this->form->renderField('combo'); ?>
 				<?php echo $this->form->renderField('registered'); ?>
@@ -72,8 +74,7 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 					<div class="control-label"><?php echo $this->form->getLabel('version_note'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('version_note'); ?></div>
 				</div>
-				<?php endif; ?>
-				<?php echo $this->form->renderField('miscelanea'); ?>
+				<?php endif; ?>				
 				</fieldset>
 			</div>
 		</div>

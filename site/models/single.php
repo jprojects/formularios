@@ -34,11 +34,11 @@ class FormulariosModelSingle extends JModelItem
 	 * @return	array
 	 * @since	1.6
 	*/
-	public function getFormText($formid=1)
+	public function getFormData($field, $formid=1)
 	{
         $db  = JFactory::getDbo();
         
-        $db->setQuery('select miscelanea FROM #__formularios_forms where id = '.$formid);
+        $db->setQuery("select $field FROM #__formularios_forms where id = ".$formid);
         return $db->loadResult();
 	}
 	/**

@@ -48,6 +48,19 @@ class FormulariosModelForm extends JModelItem
 	 * @return	array
 	 * @since	1.6
 	*/
+	public function getFormData($field, $formid=1)
+	{
+        $db  = JFactory::getDbo();
+        
+        $db->setQuery("select $field FROM #__formularios_forms where id = ".$formid);
+        return $db->loadResult();
+	}
+	/**
+	 * Get a form title.
+	 *
+	 * @return	array
+	 * @since	1.6
+	*/
 	public function getFormTitle($formid=1)
 	{
         $db  = JFactory::getDbo();

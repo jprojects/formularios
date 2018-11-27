@@ -56,23 +56,29 @@ function recaptchaCallback() {
 <?php endif; ?>
 </script>
 
-<section id="section-contact" class="section appear clearfix" style="background-image: url(images/logo-vermell-<?= $lg[0]; ?>.jpg);">
+<style>
+#section-contact { background-image: url(<?= JURI::root(); ?>images/logo-vermell-<?= $lg[0]; ?>.jpg); }
+@media (max-width: 480px) {
+    #section-contact { background-image: none; }
+}
+</style>
+
+<section id="section-contact" class="section appear clearfix">
 	<div class="container">			
 		<div class="row">		
-			<div class="<?php if($model->getFormText($formid) == '') : ?>col-md-offset-3 col-md-6<?php else : ?>col-md-12<?php endif; ?>">
+			<div class="col-md-12">
 				<div class="section-header" <?php if($model->getFormText($formid) != '') : ?>style="text-align:left;"<?php endif; ?>>
-					<h2 class="section-heading"><?= JText::_('COM_FORMULARIOS_WELCOME'); ?></h2>
+					<h2 class="section-heading"><?= JText::_($model->getFormData('heading', $formid)); ?></h2>
 				</div>
 			</div>	
 		</div>
 		<div class="row">
-			<?php if($model->getFormText($formid) != '') : ?>
-			<div class="col-md-4">
-				<p></p>
-				<?= $model->getFormText($formid); ?>
+			<?php if($model->getFormData('subheading', $formid) != '') : ?>
+			<div class="col-md-12 hidden-xs hidden-sm text-center">
+				<p class="section-header"><?= JText::_($model->getFormData('subheading', $formid)); ?></p>	
 			</div>
 			<?php endif; ?>
-			<div class="<?php if($model->getFormText($formid) != '') : ?>col-md-8<?php else : ?>col-md-8 col-md-offset-2<?php endif; ?>">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="cform" id="contact-form">
 					<div id="sendmessage">
 						 <!-- message -->
@@ -110,7 +116,12 @@ function recaptchaCallback() {
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
+							<?php if (strpos($value, '|') === false) : ?> 
 							<option value="<?= $value; ?>"><?= $value; ?></option>
+							<?php else : ?>
+							<?php $parts = explode('|', $value); ?>
+							<option value="<?= $parts[0]; ?>"><?= $parts[1]; ?></option>
+							<?php endif; ?>
 							<?php endforeach; ?>
 							</select>
 							<?php endif; ?>
@@ -130,7 +141,7 @@ function recaptchaCallback() {
 				   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
 							</div>
 							<?php endif; ?>
-						  	<button type="submit" disabled="true" class="line-btn green submit"><?= JText::_('ENVIAR'); ?></button>
+						  	<button type="submit" disabled="true" class="line-btn green submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>
 
