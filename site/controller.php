@@ -107,16 +107,21 @@ class FormulariosController extends JControllerLegacy
 		 	unset($data['return']);
 		 	unset($data['type']);
 		 	
-		 	$subject = 'Ferrer: Nou email rebut desde el formulari '.$row->name;
-		 	$body    = "<p>Aquestes son les dades rebudes desde el formulari.</p>";
+		 	$db->setQuery('SELECT success_msg FROM #__formularios_forms WHERE id = '.$type);
+		 	$success = $db->loadResult();
+		 	$db->setQuery('SELECT error_msg FROM #__formularios_forms WHERE id = '.$type);
+		 	$error = $db->loadResult();
+		 	
+		 	$subject = 'Ferrer: Nou email rebut desde el formulari '.JText::_($row->name);
+		 	$body    = JText::_($success)."<p>Aquestes son les dades rebudes desde el formulari.</p>";
 		 	foreach($data as $k => $v) {
 		 		if($v != '') {
 		 			$body .= $k.": ".$v."<br>";
 		 		}
 		 	}
 			
-		 	//$send = $this->enviar($subject, $body, $row->email, $attach);
-		 	$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);		 			 		
+		 	$send = $this->enviar($subject, $body, $row->email, $attach);
+		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);		 			 		
 		 	
 		 	//insertem el missatge a la base de dades
 		 	$form 					= new stdClass();
@@ -125,15 +130,15 @@ class FormulariosController extends JControllerLegacy
 			$form->message    		= $body;
 			$save = $db->insertObject('#__formularios_stored', $form);
 		
-			if($send && $save) {
-				$msg = JText::_('COM_FORMULARIOS_SUCCESS_SEND_MSG');
+			if($send && $save) {				
+				$msg = JText::_($success);
 				$type = 'info';
 				//enviem confirmació si hi ha email
 				if($notify != '') {
-					$this->enviar($subject, $body, $notify, $attach);
+					$this->enviar($subject, $success, $notify, $attach);
 				}
-			} else {
-				$msg = JText::_('COM_FORMULARIOS_ERROR_SEND_MSG');
+			} else {				
+				$msg = JText::_($error);
 				$type = 'error';
 			}
 		} else {
@@ -183,7 +188,7 @@ class FormulariosController extends JControllerLegacy
 	{   
 		$jinput  = JFactory::getApplication()->input;
         $file    = $jinput->files->get('jform');  
-       	$allowed = array('pdf', 'xlsm', 'xls', 'doc', 'docx', 'xlsx', 'odt', 'jpg', 'png', 'jpeg');
+       	$allowed = array('pdf', 'xlsm', 'xls', 'csv', 'doc', 'docx', 'xlsx', 'odt', 'jpg', 'png', 'jpeg');
 
     	jimport('joomla.filesystem.file');
      
