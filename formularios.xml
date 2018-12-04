@@ -7,10 +7,8 @@
     <author>aficat</author>
     <authorEmail>kim@aficat.com</authorEmail>
     <authorUrl>http://www.afi.cat</authorUrl>
-    <version>CVS: 1.0.0</version>
-    <description>Gestor de formularios para Frigorifics Ferrer</description>
-    
-    
+    <version>1.0.0</version>
+    <description>Gestor de formularios para Frigorifics Ferrer</description>   
     
     <install> <!-- Runs on install -->
         <sql>
@@ -48,6 +46,11 @@
 			<language tag="en-GB">en-GB/en-GB.com_formularios.ini</language>
 			<language tag="es-ES">es-ES/es-ES.com_formularios.ini</language>
     </languages>
+    
+    <updateservers>
+    	<server type="extension" priority="2" name="Formularios Component">http://www.aficat.com/updates/formularios/com_formularios.xml</server>
+  	</updateservers>
+  
     <administration>
         <menu>COM_FORMULARIOS</menu>
         <submenu>
@@ -79,17 +82,5 @@
 			<language tag="es-ES">es-ES/es-ES.com_formularios.sys.ini</language>
         </languages>
     </administration>
-    <config>
-        <fields name="params">
-            <fieldset name="component">
-                <field name="save_history" default="0" />
-            </fieldset>
-        </fields>
-    </config>
-    <plugins>
-        <plugin group="search" plugin="formularios"/>
-    </plugins>
     
 </extension>
-<!-- Component built by the Joomla Component Creator -->
-<!-- http://www.component-creator.com/ -->
