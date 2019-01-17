@@ -101,7 +101,10 @@ function recaptchaCallback() {
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
 						<div class="col-xs-<?= $item->field_column; ?>">
 					  	<div class="form-group">
+					  	
+							<?php if($item->field_label != '') : ?>
 							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
+							<?php endif; ?>
 							
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
@@ -152,6 +155,3 @@ function recaptchaCallback() {
 		
 	</div>
 </section>
-<div class="col-md-4 hidden-xs hidden-sm" style="z-index:10;position:absolute;right:0;top:0;">
-	<!--<img src="components/com_formularios/assets/images/90anys.png">-->
-</div>

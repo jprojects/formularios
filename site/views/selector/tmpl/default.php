@@ -80,6 +80,3 @@ $params = JComponentHelper::getParams( 'com_formularios' );
 		
 	</div>
 </section>
-<div class="col-md-4 hidden-xs hidden-sm" style="z-index:10;position:absolute;right:0;top:50px;text-align:right;">
-	<!--<img src="images/logo_90anys_<?= $lg[0]; ?>.png">-->
-</div>
