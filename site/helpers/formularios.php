@@ -64,6 +64,30 @@ class FormulariosHelpersFormularios
 
 		return explode(',', $db->loadResult());
 	}
+	
+	/**
+	 * Method to get the privacy or terms article by language
+     * @access public
+     * @param string $type privacy or terms
+     * @return the article url
+    */
+    public static function getPrivacyPolicy()
+    {
+		$lang = JFactory::getLanguage()->getTag();
+		$articles = json_decode(jpf::getparameter('privacy'));
+		foreach ($articles as $art) 
+      	{
+			foreach ($art as $k => $v) 
+			{
+				$result[$k][] = $v;
+			}
+      	}
+      	
+	  	foreach ($result as $index=>$value) 
+		{   
+			if($value[0] == $lang) { return $value[1]; }
+		}
+    }
 
     /**
      * Gets the edit permission for an user
