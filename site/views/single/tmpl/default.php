@@ -125,7 +125,8 @@ function recaptchaCallback() {
 					  	<div class="col-xs-12">
 							<div class="checkbox nopad">			  	
 								<label>
-							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', FormulariosHelpersFormularios::getPrivacyPolicy()); ?>.</small>
+							  		<?php $link = JRoute::_('index.php?Itemid='.FormulariosHelpersFormularios::getPrivacyPolicy()); ?>
+							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
 								</label>
 						  	</div>
 						  	<?php if($captchaEnabled == 1) : ?>
