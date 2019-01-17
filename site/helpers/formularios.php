@@ -68,13 +68,13 @@ class FormulariosHelpersFormularios
 	/**
 	 * Method to get the privacy or terms article by language
      * @access public
-     * @param string $type privacy or terms
      * @return the article url
     */
     public static function getPrivacyPolicy()
     {
+		$params = JComponentHelper::getParams( 'com_formularios' );
 		$lang = JFactory::getLanguage()->getTag();
-		$articles = json_decode(jpf::getparameter('privacy'));
+		$articles = json_decode($params->get('privacy'));
 		foreach ($articles as $art) 
       	{
 			foreach ($art as $k => $v) 
