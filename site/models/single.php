@@ -25,7 +25,7 @@ class FormulariosModelSingle extends JModelItem
         
         $id  = $app->input->get('formId', 1);
         
-        $db->setQuery('SELECT * FROM #__formularios_fields WHERE state = 1 AND formId = '.$id);
+        $db->setQuery('SELECT * FROM #__formularios_fields WHERE state = 1 AND formId = '.$id.' ORDER BY ordering');
         return $db->loadObjectList();
 	}
 	/**
