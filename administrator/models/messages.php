@@ -62,6 +62,9 @@ class FormulariosModelMessages extends JModelList
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+		
+		$formid = $app->getUserStateFromRequest($this->context . '.filter.formId', 'filter_formId');
+		$this->setState('filter.formId', $formid);
 
 		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
 		$this->setState('filter.state', $published);
@@ -92,6 +95,7 @@ class FormulariosModelMessages extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.formId');
 
 		return parent::getStoreId($id);
 	}
@@ -126,6 +130,14 @@ class FormulariosModelMessages extends JModelList
 		{
 			$search = $db->Quote('%' . $db->escape($search, true) . '%');
 			$query->where('f.name LIKE ' . $search. ' OR a.message LIKE '. $search);
+		}
+		
+		// Filter by search in title
+		$formid = $this->getState('filter.formId');
+
+		if (!empty($formid))
+		{
+			$query->where('formId = ' . $formid);
 		}
 		
 		// Add the list ordering clause.

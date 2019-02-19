@@ -75,6 +75,29 @@ class FormulariosViewMessages extends JViewLegacy
 
 		JToolBarHelper::back();
 		JToolBarHelper::divider();
+		
+		// Show trash and delete for components that uses the state field
+		if (isset($this->items[0]->state))
+		{
+			if ($canDo->get('core.edit') && isset($this->items[0]))
+			{
+				JToolBarHelper::editList('message.edit', 'JTOOLBAR_EDIT');
+			}
+			if (isset($this->items[0]->state))
+			{
+				JToolBarHelper::divider();
+				JToolBarHelper::custom('messages.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
+				JToolBarHelper::custom('messages.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			}
+			if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+			{
+				JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			}
+			elseif ($canDo->get('core.edit.state'))
+			{
+				JToolbarHelper::trash('messages.trash');
+			}
+		}
 	
 
 		if ($canDo->get('core.admin'))
@@ -93,12 +116,7 @@ class FormulariosViewMessages extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'a.`id`' => JText::_('JGRID_HEADING_ID'),
-			'a.`message`' => JText::_('COM_FORMULARIOS_FORMS_EMAIL'),
-			'a.`ordering`' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.`state`' => JText::_('JSTATUS'),
-		);
+
 	}
 
     /**

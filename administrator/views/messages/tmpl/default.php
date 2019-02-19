@@ -71,7 +71,7 @@ $sortFields = $this->getSortFields();
 									<th class='left'>
 				<?php echo JHtml::_('searchtools.sort',  'Id', 'a.`id`', $listDirn, $listOrder); ?>
 				</th>
-				<th class='left'>
+				<th class='left'>			
 				<?php echo JHtml::_('searchtools.sort',  'Formulari', 'a.`name`', $listDirn, $listOrder); ?>
 				</th>
 				<th class='left'>
@@ -142,13 +142,13 @@ $sortFields = $this->getSortFields();
 					<?php echo $item->id; ?>
 				</td>							
 				<td>				
-					<?php echo $item->name; ?>
+					<a href="index.php?option=com_formularios&task=message.edit&id=<?= $item->id; ?>"><?= $item->name; ?></a>
 				</td>
 				<td>
 					<?php echo date('d-m-Y H:i', strtotime($item->data_missatge)); ?>
 				</td>
 				<td>
-					<a onclick="jQuery('#message<?= $item->id; ?>').toggle();"><?php echo (substr($item->message, 0, 35) . '...'); ?></a>
+					<a onclick="jQuery('#message<?= $item->id; ?>').toggle();"><?php echo (substr($item->message, 0, 115) . '...'); ?></a>
 					<div id="message<?= $item->id; ?>" style="display:none;"><?= $item->message; ?></div>
 				</td>
 				<td>				

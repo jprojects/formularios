@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fields name="filter">
-        <field name="search" type="text" hint="COM_FORMULARIOS_SEARCH_FILTER_SUBMIT"
-               label="COM_USERS_FILTER_SEARCH_DESC"
-               class="js-stools-search-string" />
+        <field name="search" 
+        	type="text" 
+        	hint="COM_FORMULARIOS_SEARCH_FILTER_SUBMIT"
+            label="COM_USERS_FILTER_SEARCH_DESC"
+            class="js-stools-search-string" 
+         />
 
-        
+        <field
+			name="formId"
+			type="sql"
+			default=""
+			label="Formulari"
+			query="SELECT id, name FROM #__formularios_forms"
+			key_field="id"
+			value_field="name"
+			required="true"
+			onchange="this.form.submit();"
+    	>
+    	<option value="">COM_FORMULARIOS_SELECT_OPTION</option>
+		</field>
+		
+		<field 
+			name="state" 
+			default="1" 
+			type="list" 
+			label="JSTATUS" 
+			description="JFIELD_PUBLISHED_DESC" 
+			class="inputbox" 
+			size="1"
+			onchange="this.form.submit();"
+    	>
+		  <option value="1">JPUBLISHED</option>
+		  <option value="0">JUNPUBLISHED</option>
+		  <option value="2">JARCHIVED</option>
+		  <option value="-2">JTRASHED</option>
+    	</field>
 
     </fields>
 
@@ -19,7 +50,7 @@
                default="a.id DESC"
         >
             <option value="">JGLOBAL_SORT_BY</option>
-            <option value="a.`id` ASC">ID Ascending</option><option value="a.`id` DESC">ID Descending</option><option value="a.`email` ASC">Emails Ascending</option><option value="a.`email` DESC">Emails Descending</option><option value="a.`ordering` ASC">Order Ascending</option><option value="a.`ordering` DESC">Order Descending</option><option value="a.`state` ASC">State Ascending</option><option value="a.`state` DESC">State Descending</option>
+            <option value="a.`id` ASC">ID Ascending</option><option value="a.`id` DESC">ID Descending</option><option value="a.`ordering` ASC">Order Ascending</option><option value="a.`ordering` DESC">Order Descending</option><option value="a.`state` ASC">State Ascending</option><option value="a.`state` DESC">State Descending</option>
 
         </field>
 
