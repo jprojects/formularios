@@ -78,7 +78,12 @@ function recaptchaCallback() {
 				<p class="section-header"><?= JText::_($model->getFormData('subheading', $formid)); ?></p>	
 			</div>
 			<?php endif; ?>
-			<div class="col-md-8 col-md-offset-2">
+			<?php if($params->get('map', 0) == 1) : ?>
+			<div class="col-xs-12 col-md-6">
+				<iframe src="<?= $params->get('map_url'); ?>" width="<?= $params->get('map_width'); ?>" height="<?= $params->get('map_height'); ?>" frameborder="0" style="border:0" allowfullscreen></iframe>
+			</div>
+			<?php endif; ?>
+			<div class="col-xs-12 <?php if($params->get('map', 0) == 1) : ?>col-md-6<?php else: ?>col-md-8 col-md-offset-2<?php endif; ?>">
 				<div class="cform" id="contact-form">
 					<div id="sendmessage">
 						 <!-- message -->

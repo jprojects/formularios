@@ -32,8 +32,10 @@ class FormulariosModelMessages extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.`id`',
-				'data', 'a.`data`',
+				'data_missatge', 'a.`data_missatge`',
+				'name', 'f.`name`',
 				'message', 'a.`message`',
+				'status', 'a.`status`',
 			);
 		}
 
@@ -125,6 +127,16 @@ class FormulariosModelMessages extends JModelList
 			$search = $db->Quote('%' . $db->escape($search, true) . '%');
 			$query->where('f.name LIKE ' . $search. ' OR a.message LIKE '. $search);
 		}
+		
+		// Add the list ordering clause.
+		$orderCol  = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+
+		if ($orderCol && $orderDirn)
+		{
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
+		
 		//echo $query;
 		return $query;
 	}

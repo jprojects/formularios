@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <fieldset label="COM_FORMULARIOS" name="formularios">
+    	<field 
+    		name="map" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="0" 
+    		label="Map" 
+    		description=""
+    	>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field 
+        	name="map_url" 
+        	type="text" 
+        	default="" 
+        	label="Map url" 
+        	description="Google Iframe url" 
+        />
+        <field 
+        	name="map_width" 
+        	type="text" 
+        	default="100%" 
+        	label="Map width" 
+        	description="" 
+        />
+        <field 
+        	name="map_height" 
+        	type="text" 
+        	default="600" 
+        	label="Map height" 
+        	description="" 
+        />
     	<field name="privacy"
 			type="repeatable"
 			icon="list"

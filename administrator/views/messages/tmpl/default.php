@@ -75,10 +75,13 @@ $sortFields = $this->getSortFields();
 				<?php echo JHtml::_('searchtools.sort',  'Formulari', 'a.`name`', $listDirn, $listOrder); ?>
 				</th>
 				<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'Data', 'a.`data`', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('searchtools.sort',  'Data', 'a.`data_missatge`', $listDirn, $listOrder); ?>
 				</th>
 				<th class='left'>
 				<?php echo JHtml::_('searchtools.sort',  'Missatge', 'a.`message`', $listDirn, $listOrder); ?>
+				</th>
+				<th class='left'>
+				<?php echo JHtml::_('searchtools.sort',  'Status', 'a.`status`', $listDirn, $listOrder); ?>
 				</th>
 				<th></th>
 
@@ -148,7 +151,11 @@ $sortFields = $this->getSortFields();
 					<a onclick="jQuery('#message<?= $item->id; ?>').toggle();"><?php echo (substr($item->message, 0, 35) . '...'); ?></a>
 					<div id="message<?= $item->id; ?>" style="display:none;"><?= $item->message; ?></div>
 				</td>
-
+				<td>				
+					<?php if($item->status == 0) { echo '<span class="label label-warning">Pendent</span>'; } ?>
+					<?php if($item->status == 1) { echo '<span class="label label-info">Progres</span>'; } ?>
+					<?php if($item->status == 2) { echo '<span class="label label-success">Finalitzat</span>'; } ?>
+				</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
