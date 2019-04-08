@@ -42,7 +42,7 @@ window.setInterval(function(){
 },1000);
 
 jQuery('.tos').click(function() {
-	if(jQuery(this).is(':checked') && counter > 5) {  
+	if(jQuery(this).is(':checked') && counter > 3) {  
         jQuery('.submit').removeAttr('disabled');  
     } else {  
         jQuery('.submit').attr('disabled', 'disabled');  
