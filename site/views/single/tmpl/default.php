@@ -99,7 +99,7 @@ function recaptchaCallback() {
 						<input type="hidden" name="jform[type]" value="<?= $formid; ?>" />
 						
 						<?php if($params->get('honeypot', 0) == 1) : ?>
-						<input type="hidden" id="honeypot" name="jform[honeypot]" value="" />
+						<input type="text" id="honeypot" name="jform[honeypot]" value="" />
 						<?php endif; ?>
 						
 						
