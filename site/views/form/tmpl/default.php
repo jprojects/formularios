@@ -61,6 +61,9 @@ function recaptchaCallback() {
 @media (max-width: 480px) {
     #section-contact { background-image: none; }
 }
+<?php if($params->get('honeypot', 0) == 1) : ?>
+#honeypot { position: absolute; left: -5000px; }
+<?php endif; ?>
 </style>
 
 <section id="section-contact" class="section appear clearfix">
@@ -91,6 +94,10 @@ function recaptchaCallback() {
 					<form action="/index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
 						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
+						
+						<?php if($params->get('honeypot', 0) == 1) : ?>
+						<input type="hidden" id="honeypot" name="jform[honeypot]" value="" />
+						<?php endif; ?>
 
 						<div class="form-group">
 							<label for="jform_type">Escull un tipus de formulari</label>

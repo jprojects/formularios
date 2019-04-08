@@ -31,6 +31,7 @@ $sitekey = $params->get('reCaptcha_sitekey');
 <script>
 <?php if($captchaEnabled == 0) : ?>
 jQuery(document).ready(function() {
+
 jQuery('.tos').click(function() {
 	if(jQuery(this).is(':checked')) {  
         jQuery('.submit').removeAttr('disabled');  
@@ -61,6 +62,9 @@ function recaptchaCallback() {
 @media (max-width: 480px) {
     #section-contact { background-image: none; }
 }
+<?php if($params->get('honeypot', 0) == 1) : ?>
+#honeypot { position: absolute; left: -5000px; }
+<?php endif; ?>
 </style>
 
 <section id="section-contact" class="section appear clearfix">
@@ -93,6 +97,11 @@ function recaptchaCallback() {
 						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
 						<input type="hidden" name="jform[type]" value="<?= $formid; ?>" />
+						
+						<?php if($params->get('honeypot', 0) == 1) : ?>
+						<input type="hidden" id="honeypot" name="jform[honeypot]" value="" />
+						<?php endif; ?>
+						
 						
 						<?php foreach($model->getItem() as $item) : ?>
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>

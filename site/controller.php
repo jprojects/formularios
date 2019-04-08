@@ -54,6 +54,12 @@ class FormulariosController extends JControllerLegacy
      	$files  = array();
      	$notify = '';
      	
+     	if($params->get('honeypot', 0) == 1) {
+			if($data['honeypot'] !== "") {
+				return false;
+			}		
+		}
+     	
      	$captchaEnabled = $params->get('reCaptcha', 0);
      	
      	if($captchaEnabled == 1) {
