@@ -33,6 +33,24 @@
         	label="Map height" 
         	description="" 
         />
+        <field 
+    		name="text" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="0" 
+    		label="Texte" 
+    		description=""
+    	>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field 
+        	name="text_content" 
+        	type="editor" 
+        	default="" 
+        	label="Contingut del texte" 
+        	description="" 
+        />
     	<field name="privacy"
 			type="repeatable"
 			icon="list"
