@@ -95,7 +95,7 @@ function recaptchaCallback() {
 				<iframe src="<?= $params->get('map_url'); ?>" width="<?= $params->get('map_width'); ?>" height="<?= $params->get('map_height'); ?>" frameborder="0" style="border:0" allowfullscreen></iframe>
 				<?php endif; ?>
 				<?php if($params->get('text', 0) == 1) : ?>
-				<?= $params->get('text'); ?>
+				<?= $params->get('text_content'); ?>
 				<?php endif; ?>
 			</div>
 			<?php endif; ?>
