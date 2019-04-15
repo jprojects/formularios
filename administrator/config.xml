@@ -50,6 +50,7 @@
         	default="" 
         	label="Contingut del texte" 
         	description="" 
+        	filter="raw"
         />
     	<field name="privacy"
 			type="repeatable"
