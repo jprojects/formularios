@@ -164,7 +164,7 @@ function recaptchaCallback() {
 						  	<button type="submit" disabled="true" class="line-btn green submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>
-
+					<div class="mt-4"><?= FormulariosHelpersFormularios::getFooter(); ?></div>
 				</div>
 			</div>
 			<!-- ./span12 -->

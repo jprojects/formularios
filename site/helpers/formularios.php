@@ -72,9 +72,33 @@ class FormulariosHelpersFormularios
     */
     public static function getPrivacyPolicy()
     {
-		$params = JComponentHelper::getParams( 'com_formularios' );
+    	$params = JComponentHelper::getParams( 'com_formularios' );
 		$lang = JFactory::getLanguage()->getTag();
 		$articles = json_decode($params->get('privacy'));
+		foreach ($articles as $art) 
+      	{
+			foreach ($art as $k => $v) 
+			{
+				$result[$k][] = $v;
+			}
+      	}
+      	
+	  	foreach ($result as $index=>$value) 
+		{   
+			if($value[0] == $lang) { return $value[1]; }
+		}
+    }
+    
+    /**
+	 * Method to get the footer legal notice
+     * @access public
+     * @return the article url
+    */
+    public static function getFooter()
+    {
+    	$params = JComponentHelper::getParams( 'com_formularios' );
+		$lang = JFactory::getLanguage()->getTag();
+		$articles = json_decode($params->get('footer'));
 		foreach ($articles as $art) 
       	{
 			foreach ($art as $k => $v) 

@@ -76,6 +76,31 @@
 				/>				
 			</fieldset>
 		</field> 
+		<field 
+			name="footer"
+			type="repeatable"
+			icon="list"
+			description="COM_FORMULARIOS_FOOTER_DESC"
+			label="COM_FORMULARIOS_FOOTER_LABEL"
+			default=''>
+			<fieldset hidden="true" name="list_footer_modal" repeat="true">
+				<field 
+					name="language" 
+					type="language" 
+					client="site" 
+					default="" 
+					label="Select a language" 
+					description="" 
+				/>
+				<field 
+					name="text" 
+					type="textarea" 
+					default="" 
+					label="COM_FORMULARIOS_FOOTER_TEXT_LABEL" 
+					description="COM_FORMULARIOS_FOOTER_TEXT_DESC" 
+				/>				
+			</fieldset>
+		</field>
     	<field 
     		name="reCaptcha" 
     		type="radio" 
