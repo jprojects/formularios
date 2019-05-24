@@ -161,10 +161,10 @@ function recaptchaCallback() {
 				   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
 							</div>
 							<?php endif; ?>
-						  	<button type="submit" disabled="true" class="line-btn green submit"><?= JText::_('JSUBMIT'); ?></button>
+						  	<button type="submit" disabled="true" class="btn btn-primary submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>
-					<div class="mt-4"><?= FormulariosHelpersFormularios::getFooter(); ?></div>
+					<div class="my-4"><?= FormulariosHelpersFormularios::getFooter(); ?></div>
 				</div>
 			</div>
 			<!-- ./span12 -->
