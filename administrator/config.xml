@@ -82,7 +82,8 @@
 			icon="list"
 			description="COM_FORMULARIOS_FOOTER_DESC"
 			label="COM_FORMULARIOS_FOOTER_LABEL"
-			default=''>
+			default=''
+			filter="raw">
 			<fieldset hidden="true" name="list_footer_modal" repeat="true">
 				<field 
 					name="language" 
