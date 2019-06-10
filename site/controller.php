@@ -118,7 +118,7 @@ class FormulariosController extends JControllerLegacy
 		 	$db->setQuery('SELECT error_msg FROM #__formularios_forms WHERE id = '.$type);
 		 	$error = $db->loadResult();
 		 	
-		 	$subject = 'Ferrer: Nou email rebut desde el formulari '.JText::_($row->name);
+		 	$subject = $app->getCfg('sitename').': Nou email rebut desde el formulari '.JText::_($row->name);
 		 	$body    = JText::_($success)."<p>Aquestes son les dades rebudes desde el formulari.</p>";
 		 	foreach($data as $k => $v) {
 		 		if($v != '') {
