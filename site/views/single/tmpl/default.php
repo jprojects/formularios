@@ -127,7 +127,7 @@ jQuery(document).ready(function() {
 					<div id="sendmessage">
 						 <!-- message -->
 					</div>
-					<form action="/index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
+					<form action="<?= JURI::root(); ?>index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
 						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
 						<input type="hidden" name="jform[type]" value="<?= $formid; ?>" />

@@ -6,7 +6,7 @@
  * @copyright  2018 aficat
  * @license    Licencia Pública General GNU versión 2 o posterior. Consulte LICENSE.txt
  */
- 
+
  // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 $model  = $this->getModel();
@@ -42,21 +42,21 @@ window.setInterval(function(){
 },1000);
 
 jQuery('.tos').click(function() {
-	if(jQuery(this).is(':checked') && counter > 3) {  
-        jQuery('.submit').removeAttr('disabled');  
-    } else {  
-        jQuery('.submit').attr('disabled', 'disabled');  
-    } 
+	if(jQuery(this).is(':checked') && counter > 3) {
+        jQuery('.submit').removeAttr('disabled');
+    } else {
+        jQuery('.submit').attr('disabled', 'disabled');
+    }
 });
 });
 <?php else : ?>
 var resolved = false;
 function recaptchaCallback() {
     var resolved = true;
-    if(resolved == true) {  
-	    jQuery('.submit').removeAttr('disabled');  
-	} else {  
-	    jQuery('.submit').attr('disabled', 'disabled');  
+    if(resolved == true) {
+	    jQuery('.submit').removeAttr('disabled');
+	} else {
+	    jQuery('.submit').attr('disabled', 'disabled');
 	}
 };
 <?php endif; ?>
@@ -73,18 +73,18 @@ function recaptchaCallback() {
 </style>
 
 <section id="section-contact" class="section appear clearfix">
-	<div class="container">			
-		<div class="row">		
+	<div class="container">
+		<div class="row">
 			<div class="col-md-12">
 				<div class="section-header" <?php if($model->getFormText($formid) != '') : ?>style="text-align:left;"<?php endif; ?>>
 					<h2 class="section-heading"><?= JText::_($model->getFormData('heading', $formid)); ?></h2>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<div class="row">
 			<?php if($model->getFormData('subheading', $formid) != '') : ?>
 			<div class="col-md-12 hidden-xs hidden-sm text-center">
-				<p class="section-header"><?= JText::_($model->getFormData('subheading', $formid)); ?></p>	
+				<p class="section-header"><?= JText::_($model->getFormData('subheading', $formid)); ?></p>
 			</div>
 			<?php endif; ?>
 			<?php if($params->get('map', 0) == 1) : ?>
@@ -97,10 +97,10 @@ function recaptchaCallback() {
 					<div id="sendmessage">
 						 <!-- message -->
 					</div>
-					<form action="/index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
+					<form action="<?= JURI::root(); ?>index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
 						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
-						
+
 						<?php if($params->get('honeypot', 0) == 1) : ?>
 						<input type="text" id="honeypot" name="jform[honeypot]" value="" />
 						<?php endif; ?>
@@ -119,25 +119,25 @@ function recaptchaCallback() {
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
 						<div class="col-xs-<?= $item->field_column; ?>">
 					  	<div class="form-group">
-					  	
+
 							<?php if($item->field_label != '') : ?>
 							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
 							<?php endif; ?>
-							
+
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
 							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
-							
+
 							<?php elseif($item->field_type == 'file') : ?>
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" id="jform_<?= $item->field_name; ?>" placeholder="<?= $item->field_hint; ?>" <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
-							
+
 							<?php elseif($item->field_type == 'select') : ?>
 							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
-							<?php if (strpos($value, '|') === false) : ?> 
+							<?php if (strpos($value, '|') === false) : ?>
 							<option value="<?= $value; ?>"><?= $value; ?></option>
 							<?php else : ?>
 							<?php $parts = explode('|', $value); ?>
@@ -146,13 +146,13 @@ function recaptchaCallback() {
 							<?php endforeach; ?>
 							</select>
 							<?php endif; ?>
-							
+
 							<div class="validation"></div>
 					  	</div>
 					  	</div>
 					  	<?php endforeach; ?>
 					  	<div class="col-xs-12">
-							<div class="checkbox nopad">			  	
+							<div class="checkbox nopad">
 								<label>
 							  		<?php $link = JRoute::_('index.php?Itemid='.FormulariosHelpersFormularios::getPrivacyPolicy()); ?>
 							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
@@ -171,6 +171,6 @@ function recaptchaCallback() {
 			</div>
 			<!-- ./span12 -->
 		</div>
-		
+
 	</div>
 </section>
