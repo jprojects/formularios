@@ -38,6 +38,20 @@
 		  <option value="-2">JTRASHED</option>
     	</field>
 
+		<field
+		name="comercial"
+		type="list"
+		label="Comercial"
+		default=""
+		description="El client vol rebre info comercial"
+		class="inputbox"
+		onchange="this.form.submit();"
+	>
+		<option value="">COM_FORMULARIOS_SELECT_OPTION</option>
+		<option value="1">JNO</option>
+		<option value="0">JYES</option>
+	</field>
+
     </fields>
 
     <fields name="list">

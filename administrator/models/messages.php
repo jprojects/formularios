@@ -35,7 +35,7 @@ class FormulariosModelMessages extends JModelList
 				'data_missatge', 'a.`data_missatge`',
 				'name', 'f.`name`',
 				'message', 'a.`message`',
-				'status', 'a.`status`',
+				'state', 'a.`state`',
 			);
 		}
 
@@ -54,7 +54,7 @@ class FormulariosModelMessages extends JModelList
 	 *
 	 * @throws Exception
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.id', $direction = 'ASC')
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
@@ -66,15 +66,18 @@ class FormulariosModelMessages extends JModelList
 		$formid = $app->getUserStateFromRequest($this->context . '.filter.formId', 'filter_formId');
 		$this->setState('filter.formId', $formid);
 
-		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
+		$published = $app->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $published);
+
+		$comercial = $app->getUserStateFromRequest($this->context . '.filter.comercial', 'filter_comercial', '', 'string');
+		$this->setState('filter.comercial', $comercial);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_formularios');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.id', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -96,6 +99,7 @@ class FormulariosModelMessages extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.formId');
+		$id .= ':' . $this->getState('filter.comercial');
 
 		return parent::getStoreId($id);
 	}
@@ -138,6 +142,22 @@ class FormulariosModelMessages extends JModelList
 		if (!empty($formid))
 		{
 			$query->where('formId = ' . $formid);
+		}
+
+		// Filter by state
+		$state = $this->getState('filter.state');
+
+		if (!empty($state))
+		{
+			$query->where('state = ' . $state);
+		}
+
+		// Filter by info comercial
+		$comercial = $this->getState('filter.comercial');
+
+		if (!empty($comercial))
+		{
+			$query->where('comercial = ' . $comercial);
 		}
 		
 		// Add the list ordering clause.

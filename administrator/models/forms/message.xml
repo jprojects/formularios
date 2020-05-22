@@ -31,19 +31,17 @@
     	hint="COM_FORMULARIOS_MESSAGE_LBL_FORM_MESSAGE" 
     />
     <field name="ordering"/>
-    <field 
-    	name="status" 
-    	default="1" 
-    	type="list" 
-    	label="JSTATUS" 
-    	description="JFIELD_PUBLISHED_DESC" 
-    	class="inputbox" 
-    	size="1"
-    >
-      <option value="0">Pendent</option>
-      <option value="1">Progress</option>
-      <option value="2">Finalitzat</option>
-    </field>
+    <field
+		name="comercial"
+		type="radio"
+		label="Comercial"
+		default="0"
+		description="El client vol rebre info comercial"
+		class="btn-group btn-group-yesno"
+	>
+		<option value="1">JNO</option>
+		<option value="0">JYES</option>
+	</field>
     <field 
     	name="state" 
     	default="1" 

@@ -102,6 +102,17 @@
 				/>				
 			</fieldset>
 		</field>
+		<field 
+    		name="comercial" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="0" 
+    		label="Info comercial" 
+    		description="Apareixer o no la casella de info comercial"
+    	>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     	<field 
     		name="reCaptcha" 
     		type="radio" 

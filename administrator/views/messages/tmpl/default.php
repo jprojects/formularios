@@ -71,6 +71,9 @@ $sortFields = $this->getSortFields();
 									<th class='left'>
 				<?php echo JHtml::_('searchtools.sort',  'Id', 'a.`id`', $listDirn, $listOrder); ?>
 				</th>
+				<th class='left'>
+				<?php echo JHtml::_('searchtools.sort',  'Comercial', 'a.`comercial`', $listDirn, $listOrder); ?>
+				</th>
 				<th class='left'>			
 				<?php echo JHtml::_('searchtools.sort',  'Formulari', 'a.`name`', $listDirn, $listOrder); ?>
 				</th>
@@ -136,7 +139,7 @@ $sortFields = $this->getSortFields();
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'forms.', $canChange, 'cb'); ?>
 </td>
 						<?php endif; ?>
-
+						<td><?php echo $item->comercial; ?></td>
 										<td>
 
 					<?php echo $item->id; ?>

@@ -178,6 +178,13 @@ jQuery(document).ready(function() {
 							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
 								</label>
 						  	</div>
+							  <?php if($params->get('comercial', 0) == 1) : ?>
+							<div class="checkbox nopad">
+								<label>
+							  		<input class="consent" type="checkbox"> <small><?= JText::_('COM_FORMULARIOS_CONSENT'); ?>.</small>
+								</label>
+						  	</div>
+							  <?php endif; ?>
 						  	<?php if($captchaEnabled == 1) : ?>
 						  	<div class="form-group">
 				   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
