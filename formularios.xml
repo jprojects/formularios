@@ -35,6 +35,7 @@
         <folder>models</folder>
         <folder>controllers</folder>
         <folder>helpers</folder>
+        <folder>assets</folder>
     </files>
     <media destination="com_formularios" folder="media">
         <folder>js</folder>
