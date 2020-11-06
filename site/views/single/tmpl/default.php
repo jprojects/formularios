@@ -24,6 +24,8 @@ if($model->isLogin($formid) && $user->guest) {
 
 $uri 	= base64_encode($url);
 $params = JComponentHelper::getParams( 'com_formularios' );
+$inline = $params->get('inline_inputs', 0);
+$show_mandatory = $params->get('show_mandatory', 0);
 $captchaEnabled = $params->get('reCaptcha', 0);
 $sitekey = $params->get('reCaptcha_sitekey');
 ?>
@@ -85,34 +87,30 @@ jQuery(document).ready(function() {
 #section-contact {
 	margin-top: 50px;
 }
-#section-contact { background-image: url(<?= JURI::root(); ?>images/logo-vermell-<?= $lg[0]; ?>.jpg); }
-/*.error { width: 100%; height: 15px; color: #e3001a; }*/
-@media (max-width: 480px) {
-    #section-contact { background-image: none; }
-}
+.inline { border: none; border-bottom: 1px solid #000; }
 <?php if($params->get('honeypot', 0) == 1) : ?>
 #honeypot { position: absolute; left: -5000px; }
 <?php endif; ?>
 </style>
 
-<section id="section-contact" class="section appear clearfix">
+<section id="section-contact" class="section appear">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-				<div class="section-header">
-					<h2 class="section-heading"><?= JText::_($model->getFormData('heading', $formid)); ?></h2>
+			<div class="col-12">
+				<div class="page-header mb-5">
+					<h1><?= JText::_($model->getFormData('heading', $formid)); ?></h1>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<?php if($model->getFormData('subheading', $formid) != '') : ?>
-			<div class="col-md-12 hidden-xs hidden-sm text-center">
+			<div class="col-12 text-center">
 				<p class="section-header"><?= JText::_($model->getFormData('subheading', $formid)); ?></p>
 			</div>
 			<?php endif; ?>
 
 			<?php if($params->get('map', 0) == 1 || $params->get('text', 0) == 1) : ?>
-			<div class="col-xs-12 col-md-6">
+			<div class="col-12 col-md-6">
 				<?php if($params->get('map', 0) == 1) : ?>
 				<iframe src="<?= $params->get('map_url'); ?>" width="<?= $params->get('map_width'); ?>" height="<?= $params->get('map_height'); ?>" frameborder="0" style="border:0" allowfullscreen></iframe>
 				<?php endif; ?>
@@ -122,13 +120,13 @@ jQuery(document).ready(function() {
 			</div>
 			<?php endif; ?>
 
-			<div class="col-xs-12 <?php if($params->get('map', 0) == 1 || $params->get('text', 0) == 1) : ?>col-md-6<?php else: ?>col-md-8 col-md-offset-2<?php endif; ?>">
+			<div class="col-12 <?php if($params->get('map', 0) == 1 || $params->get('text', 0) == 1) : ?>col-md-6<?php else: ?>col-md-10 mx-auto<?php endif; ?>">
 				<div class="cform" id="contact-form">
 					<div id="sendmessage">
 						 <!-- message -->
 					</div>
 					<form action="<?= JURI::root(); ?>index.php?option=com_formularios&task=sendForm" method="post" role="form" class="contactForm" enctype="multipart/form-data">
-						<p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p>
+						<?php if($show_mandatory == 1) : ?><p class="section-header"><?= JText::_('COM_FORMULARIOS_MANDATORY_FIELDS'); ?></p><?php endif; ?>
 						<input type="hidden" name="jform[return]" value="<?= $uri; ?>" />
 						<input type="hidden" name="jform[type]" value="<?= $formid; ?>" />
 
@@ -140,15 +138,16 @@ jQuery(document).ready(function() {
 						<?php foreach($model->getItem() as $item) : ?>
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
-						<div class="col-xs-<?= $item->field_column; ?>">
-					  	<div class="form-group">
+						<div class="col-12 col-sm-<?= $item->field_column; ?>">
+						<div class="form-group <?php if($inline == 1) : ?>row<?php endif; ?>">
 
 					  		<?php if($item->field_label != '') : ?>
-							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
+							<label <?php if($inline == 1) : ?>class="col-sm-2 col-form-label"<?php endif; ?> for="jform_<?= $item->field_name; ?>"><b><?= JText::_($item->field_label); ?>: <?= $star; ?></b></label>
 							<?php endif; ?>
 
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
-							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
+							<?php if($inline == 1) : ?><div class="col-sm-10"><?php endif; ?>
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control <?php if($inline == 1) : ?>inline mb-3<?php endif; ?>" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
 							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
 
@@ -168,10 +167,11 @@ jQuery(document).ready(function() {
 							<?php endif; ?>
 
 							<div class="validation"></div>
+						<?php if($inline == 1) : ?></div><?php endif; ?>
 					  	</div>
 					  	</div>
 					  	<?php endforeach; ?>
-					  	<div class="col-xs-12">
+					  	<div class="col-12">
 							<div class="checkbox nopad">
 								<label>
 							  		<?php $link = JRoute::_('index.php?Itemid='.FormulariosHelpersFormularios::getPrivacyPolicy()); ?>
