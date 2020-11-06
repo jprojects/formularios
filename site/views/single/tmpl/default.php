@@ -22,24 +22,23 @@ if($model->isLogin($formid) && $user->guest) {
 	$app->redirect($returnurl, JText::_('COM_FORMULARIOS_LOGIN_BEFORE'));
 }
 
-$uri 	= base64_encode($url);
-$params = JComponentHelper::getParams( 'com_formularios' );
-$inline = $params->get('inline_inputs', 0);
+$uri 			= base64_encode($url);
+$params 		= JComponentHelper::getParams( 'com_formularios' );
+$inline 		= $params->get('inline_inputs', 0);
 $show_mandatory = $params->get('show_mandatory', 0);
+$show_privacy 	= $params->get('show_privacy', 0);
 $captchaEnabled = $params->get('reCaptcha', 0);
-$sitekey = $params->get('reCaptcha_sitekey');
+$sitekey 		= $params->get('reCaptcha_sitekey');
 ?>
 
 <script>
-<?php if($captchaEnabled == 0) : ?>
 jQuery(document).ready(function() {
-
 //count seconds
 var counter = 0;
 window.setInterval(function(){
   counter++;
 },1000);
-
+<?php if($show_privacy == 1) : ?>
 jQuery('.tos').click(function() {
 	if(jQuery(this).is(':checked') && counter > 3) {
         jQuery('.submit').removeAttr('disabled');
@@ -47,40 +46,16 @@ jQuery('.tos').click(function() {
         jQuery('.submit').attr('disabled', 'disabled');
     }
 });
-});
-<?php else : ?>
-var resolved = 0;
-var checked  = 0;
-function recaptchaCallback() {
-  if(jQuery('.tos').is(':checked')) {
-    if(grecaptcha.getResponse().length !== 0) {
-      resolved = 1;
-      jQuery('.submit').removeAttr('disabled');
-    } else {
-      resolved = 0;
-      jQuery('.submit').attr('disabled', 'disabled');
-    }
-  } else {
-    if(grecaptcha.getResponse().length !== 0) {
-      resolved = 1;
-    } else {
-      resolved = 0;
-    }
-  }
-}
-jQuery(document).ready(function() {
-  jQuery('.tos').click(function() {
-    console.log(resolved);
-    if(jQuery(this).is(':checked') && resolved == 1) {
-      checked = 1;
-      jQuery('.submit').removeAttr('disabled');
-    } else {
-      checked = 0;
-      jQuery('.submit').attr('disabled', 'disabled');
-    }
-  });
+<?php endif; ?>
+<?php if($captchaEnabled == 0) : ?>
+grecaptcha.ready(function () {
+	grecaptcha.execute('<?= $sitekey; ?>', { action: 'contact' }).then(function (token) {
+		var recaptchaResponse = document.getElementById('recaptchaResponse');
+		recaptchaResponse.value = token;
+	});
 });
 <?php endif; ?>
+});
 </script>
 
 <style>
@@ -93,7 +68,7 @@ jQuery(document).ready(function() {
 <?php endif; ?>
 </style>
 
-<section id="section-contact" class="section appear">
+<section id="section-contact">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
@@ -171,26 +146,33 @@ jQuery(document).ready(function() {
 					  	</div>
 					  	</div>
 					  	<?php endforeach; ?>
+
 					  	<div class="col-12">
+
+						  	<?php if($show_privacy == 1) : ?>
 							<div class="checkbox nopad">
 								<label>
 							  		<?php $link = JRoute::_('index.php?Itemid='.FormulariosHelpersFormularios::getPrivacyPolicy()); ?>
 							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
 								</label>
 						  	</div>
-							  <?php if($params->get('comercial', 0) == 1) : ?>
+						  	<?php endif; ?>
+
+							<?php if($params->get('comercial', 0) == 1) : ?>
 							<div class="checkbox nopad">
 								<label>
 							  		<input class="consent" type="checkbox"> <small><?= JText::_('COM_FORMULARIOS_CONSENT'); ?>.</small>
 								</label>
 						  	</div>
-							  <?php endif; ?>
+							<?php endif; ?>
+
 						  	<?php if($captchaEnabled == 1) : ?>
 						  	<div class="form-group">
-				   		 		<div class="g-recaptcha" data-callback="recaptchaCallback" data-sitekey="<?= $sitekey; ?>"></div>
+							  <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
 							</div>
 							<?php endif; ?>
-						  	<button type="submit" disabled="true" class="btn btn-primary submit"><?= JText::_('JSUBMIT'); ?></button>
+
+						  	<button type="submit" <?php if($show_privacy == 1) : ?>disabled="true"<?php endif; ?> class="btn btn-dark px-5 submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>
 					<div class="my-4"><?= FormulariosHelpersFormularios::getFooter(); ?></div>

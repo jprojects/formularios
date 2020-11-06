@@ -72,12 +72,13 @@ class FormulariosViewSingle extends JViewLegacy
 		
 		$params 	= JComponentHelper::getParams( 'com_formularios' );
 		$captcha    = $params->get('reCaptcha', 0);
+		$sitekey    = $params->get('reCaptcha_sitekey', 0);
 		
 		$document->addStylesheet('components/com_formularios/assets/css/default.css');
 		$document->addScript('components/com_formularios/assets/js/jquery.js');
-		//$document->addScript('components/com_formularios/assets/js/validate.js');
+
 		if($captcha == 1) {
-			$document->addScript('https://www.google.com/recaptcha/api.js');
+			$document->addScript('https://www.google.com/recaptcha/api.js?render='.$sitekey);
 		}
 
 		// Because the application sets a default page title,

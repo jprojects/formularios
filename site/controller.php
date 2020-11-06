@@ -63,8 +63,8 @@ class FormulariosController extends JControllerLegacy
      	$captchaEnabled = $params->get('reCaptcha', 0);
      	
      	if($captchaEnabled == 1) {
-		 	if(isset($_POST['g-recaptcha-response'])){
-		      $captcha = $_POST['g-recaptcha-response'];
+		 	if(isset($_POST['recaptcha_response'])){
+		      $captcha = $_POST['recaptcha_response'];
 		    }
 		    if(!$captcha){
 		      	$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL');
@@ -74,12 +74,11 @@ class FormulariosController extends JControllerLegacy
 		    }     	
      	
 		 	$secretKey = $params->get('reCaptcha_secretkey');
-		    $ip = $_SERVER['REMOTE_ADDR'];
-		    $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
-		    $responseKeys = json_decode($response,true);
+		    $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha);
+		    $responseKeys = json_decode($response);
         }
         
-        if(intval($responseKeys["success"]) == 1 || $captchaEnabled == 0) {
+        if($recaptcha->score >= 0.5 || $captchaEnabled == 0) {
 		 	//recollim dades necessaries del formulari pare
 		 	$db->setQuery('SELECT email, name FROM #__formularios_forms WHERE id = '.$data['type']);
 		 	$row = $db->loadObject();
