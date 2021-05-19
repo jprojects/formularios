@@ -10,9 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.formvalidation');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 
 // Import CSS
@@ -27,7 +25,7 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 
 	Joomla.submitbutton = function (task) {
 		if (task == 'field.cancel') {
-			Joomla.submitform(task, document.getElementById('form-form'));
+			document.location.href = 'index.php?option=com_formularios&view=forms';
 		}
 		else {
 			

@@ -26,7 +26,6 @@ class FormulariosTablefield extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'FormulariosTablefield', array('typeAlias' => 'com_formularios.field'));
 		parent::__construct('#__formularios_fields', 'id', $db);
 	}
 

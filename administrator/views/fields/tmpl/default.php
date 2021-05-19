@@ -11,9 +11,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/');
-JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
 
 $formid = JFactory::getApplication()->input->get('formId');
 
@@ -40,14 +38,8 @@ $sortFields = $this->getSortFields();
 
 <form action="<?php echo JRoute::_('index.php?option=com_formularios&view=fields&formId='.$formid); ?>" method="post"
 	  name="adminForm" id="adminForm">
-	<?php if (!empty($this->sidebar)): ?>
-	<div id="j-sidebar-container" class="span2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="span10">
-		<?php else : ?>
+
 		<div id="j-main-container">
-			<?php endif; ?>
 
             <?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 

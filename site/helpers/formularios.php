@@ -9,8 +9,6 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::register('FormulariosHelper', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 'com_formularios' . DIRECTORY_SEPARATOR . 'helpers' . DIRECTORY_SEPARATOR . 'formularios.php');
-
 /**
  * Class FormulariosFrontendHelper
  *
@@ -18,27 +16,6 @@ JLoader::register('FormulariosHelper', JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR
  */
 class FormulariosHelpersFormularios
 {
-	/**
-	 * Get an instance of the named model
-	 *
-	 * @param   string  $name  Model name
-	 *
-	 * @return null|object
-	 */
-	public static function getModel($name)
-	{
-		$model = null;
-
-		// If the file exists, let's
-		if (file_exists(JPATH_SITE . '/components/com_formularios/models/' . strtolower($name) . '.php'))
-		{
-			require_once JPATH_SITE . '/components/com_formularios/models/' . strtolower($name) . '.php';
-			$model = JModelLegacy::getInstance($name, 'FormulariosModel');
-		}
-
-		return $model;
-	}
-
 	/**
 	 * Gets the files attached to an item
 	 *
@@ -72,21 +49,13 @@ class FormulariosHelpersFormularios
     */
     public static function getPrivacyPolicy()
     {
-    	$params = JComponentHelper::getParams( 'com_formularios' );
+    	$params = JComponentHelper::getParams( 'com_jpframework' );
 		$lang = JFactory::getLanguage()->getTag();
-		$articles = json_decode($params->get('privacy'));
-		foreach ($articles as $art) 
-      	{
-			foreach ($art as $k => $v) 
-			{
-				$result[$k][] = $v;
-			}
-      	}
-      	
-	  	foreach ($result as $index=>$value) 
-		{   
-			if($value[0] == $lang) { return $value[1]; }
-		}
+		$articles = $params->get('privacy');
+		foreach ($articles as $art)
+        { 
+			if($art->language == $lang) { return $art->article; }
+        }
     }
     
     /**

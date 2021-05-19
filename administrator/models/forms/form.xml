@@ -6,30 +6,21 @@
     <field name="heading" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_HEADING" description="COM_FORMULARIOS_FORM_DESC_FORM_HEADING" hint="COM_FORMULARIOS_FORM_LBL_FORM_HEADING"/>
     <field name="subheading" type="textarea" label="COM_FORMULARIOS_FORM_LBL_FORM_SUBHEADING" filter="safehtml" description="COM_FORMULARIOS_FORM_DESC_FORM_SUBHEADING" class="inputbox" labelclass="control-label"/>
     <field name="email" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL" description="COM_FORMULARIOS_FORM_DESC_FORM_EMAIL" hint="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL"/>
-    <field name="combo" default="1" type="radio" label="COM_FORMULARIOS_FORM_LBL_FORM_COMBO" description="COM_FORMULARIOS_FORM_DESC_FORM_COMBO" class="btn-group">
-      <option value="1">JYES</option>
-      <option value="0">JNO</option>
-    </field>
-    <field name="registered" default="1" type="radio" label="COM_FORMULARIOS_FORM_LBL_FORM_REGISTERED" description="COM_FORMULARIOS_FORM_DESC_FORM_REGISTERED" class="btn-group">
+    <field name="registered" default="1" type="list" label="COM_FORMULARIOS_FORM_LBL_FORM_REGISTERED" description="COM_FORMULARIOS_FORM_DESC_FORM_REGISTERED">
       <option value="1">JYES</option>
       <option value="0">JNO</option>
     </field>
     <field name="ordering"/>
-    <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" size="1">
+    <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC">
       <option value="1">JPUBLISHED</option>
       <option value="0">JUNPUBLISHED</option>
       <option value="2">JARCHIVED</option>
       <option value="-2">JTRASHED</option>
-    </field>
-    <field name="selector" default="0" type="radio" label="COM_FORMULARIOS_FORM_LBL_FORM_SELECTOR" description="COM_FORMULARIOS_FORM_DESC_FORM_SELECTOR" class="btn-group">
-      <option value="1">JYES</option>
-      <option value="0">JNO</option>
     </field>
     <field name="success_msg" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_SUCCESS" description="COM_FORMULARIOS_FORM_DESC_FORM_SUCCESS" hint="COM_FORMULARIOS_FORM_LBL_FORM_SUCCESS"/>
     <field name="error_msg" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_ERROR" description="COM_FORMULARIOS_FORM_DESC_FORM_ERROR" hint="COM_FORMULARIOS_FORM_LBL_FORM_ERROR"/>
     <field name="checked_out" type="hidden" filter="unset"/>
     <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
     <field name="created_by" type="createdby" default="0" label="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY" description="COM_FORMULARIOS_FORM_DESC_FORM_CREATED_BY" hidden="true" hint="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY"/>
-    <field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL" description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label"/>
   </fieldset>
 </form>

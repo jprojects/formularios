@@ -19,102 +19,77 @@ jimport('joomla.application.component.controller');
  */
 class FormulariosController extends JControllerLegacy
 {
-	/**
-	 * Method to display a view.
-	 *
-	 * @param   boolean $cachable  If true, the view output will be cached
-	 * @param   mixed   $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JController   This object to support chaining.
-	 *
-	 * @since    1.5
-	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-        $app  = JFactory::getApplication();
-        $view = $app->input->getCmd('view', 'forms');
-		$app->input->set('view', $view);
+	function __construct()
+    {
+		parent::__construct();
+    }
 
-		parent::display($cachable, $urlparams);
-
-		return $this;
-	}
-	
 	public function sendForm()
 	{
 		$db 	= JFactory::getDbo();
      	$app    = JFactory::getApplication();
-     	
+
      	$params = JComponentHelper::getParams( 'com_formularios' );
-     	
+
      	$data 	= $app->input->post->get('jform', array(), 'array');
      	$save	= $send = false;
      	$return = base64_decode($data['return']);
      	$attach = array();
      	$files  = array();
      	$notify = '';
-     	
+
      	if($params->get('honeypot', 0) == 1) {
 			if($data['honeypot'] !== "") {
 				return false;
-			}		
+			}
 		}
-     	
+
      	$captchaEnabled = $params->get('reCaptcha', 0);
-     	
+
      	if($captchaEnabled == 1) {
-		 	if(isset($_POST['recaptcha_response'])){
-		      $captcha = $_POST['recaptcha_response'];
-		    }
-		    if(!$captcha){
-		      	$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL');
-			   	$type = 'error';
-				$this->setRedirect($return, $msg, $type);
-				return false;
-		    }     	
-     	
-		 	$secretKey = $params->get('reCaptcha_secretkey');
-		    $response=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha);
-		    $responseKeys = json_decode($response);
+		    $captcha 		= $_POST['g-recaptcha-response'];
+		 	$secretKey 		= $params->get('reCaptcha_secretkey');
+			$ip 		    = $_SERVER['REMOTE_ADDR'];
+		    $response	    = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
+		    $responseKeys   = json_decode($response, true);
         }
-        
-        if($recaptcha->score >= 0.5 || $captchaEnabled == 0) {
+
+        if($responseKeys['score'] >= 0.6 || $captchaEnabled == 0) {
 		 	//recollim dades necessaries del formulari pare
-		 	$db->setQuery('SELECT email, name FROM #__formularios_forms WHERE id = '.$data['type']);
+		 	$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
 		 	$row = $db->loadObject();
-		 	
+
 		 	//recollim tota la informació dels camps del formulari
-		 	$db->setQuery('SELECT * FROM #__formularios_fields WHERE formId = '.$data['type'].' AND state = 1');
-		 	$fields = $db->loadObjectList();		 
-		 	
+		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.$data['type'].' AND state = 1');
+		 	$fields = $db->loadObjectList();
+
 		 	$type = $data['type'];
-		 	
-		 	
-		 	foreach($fields as $field) { 
+
+		 	foreach($fields as $field) {
 		 		//comprovem si hi han camps de tipus file
 		 		if($field->field_type == 'file') {
-		 			
+
 				 	$files[] = $field->field_name;
-				 	unset($data[$field->field_name]);				 	
-				 	
+				 	unset($data[$field->field_name]);
+
 				 	if(count($files)) {
-				 		$filename = $this->upload($field->field_name);	
-				 		$attach[] = JPATH_ROOT."/tmp/".$filename;	 		
+				 		$filename = $this->upload($field->field_name);
+				 		$attach[] = JPATH_ROOT."/tmp/".$filename;
 				 	}
-			 	}			 	
+			 	}
 			 	//comprovem si hi ha camp tipus mail
 			 	if($field->field_type == 'email') {
 			 		$notify .= $data[$field->field_name];
 			 	}
 		 	}
-		 	
+
 		 	//enviem l'email
 		 	unset($data['return']);
 		 	unset($data['type']);
-		 	
-		 	$db->setQuery('SELECT success_msg FROM #__formularios_forms WHERE id = '.$type);
+
+		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$type);
 		 	$success = $db->loadResult();
-		 	$db->setQuery('SELECT error_msg FROM #__formularios_forms WHERE id = '.$type);
+		 	$db->setQuery('SELECT error_msg FROM `#__formularios_forms` WHERE id = '.$type);
 		 	$error = $db->loadResult();
 		 	
 		 	$subject = $app->getCfg('sitename').': Nou email rebut desde el formulari '.JText::_($row->name);
@@ -124,86 +99,87 @@ class FormulariosController extends JControllerLegacy
 		 			$body .= $k.": ".$v."<br>";
 		 		}
 		 	}
-			
+
 		 	$send = $this->enviar($subject, $body, $row->email, $attach);
-		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);		 			 		
-		 	
+		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
+
 		 	//insertem el missatge a la base de dades
-			$form 					= new stdClass();
-			$form->state			= 1;
-			if($params->get('comercial', 0) == 1) { $form->comercial = 1; }
+		 	$form 					= new stdClass();
 			$form->formId 			= $type;
 			$form->data_missatge  	= date('Y-m-d H:i:s');
 			$form->message    		= $body;
+			$form->state    		= 1;
+			$form->status    		= 0;
+			$form->ordering    		= 0;
+			$form->checked_out    	= 0;
+			$form->checked_out_time = '0000-00-00 00:00:00';
+			$form->created_by    	= 0;
 			$save = $db->insertObject('#__formularios_stored', $form);
-		
-			if($send && $save) {				
+
+			if($send && $save) {
 				$msg = JText::_($success);
 				$type = 'info';
 				//enviem confirmació si hi ha email
 				if($notify != '') {
 					$this->enviar($subject, $success, $notify, $attach);
 				}
-			} else {				
+			} else {
 				$msg = JText::_($error);
 				$type = 'error';
 			}
 		} else {
-			$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL');
+			$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL'.$responseKeys['score']);
 		   	$type = 'error';
 		}
-		
+
 		//si hem pujat arxius els esborrem perque ja estan enviats
 	 	if(count($attach)) {
-	 		foreach($attach as $att) { 
+	 		foreach($attach as $att) {
 	 			unlink($att);
 	 		}
 	 	}
-		
+
 		$this->setRedirect($return, $msg, $type);
-			
+
 	}
-	
-	public function enviar($subject, $body, $email, $attach=array()) 
+
+	public function enviar($subject, $body, $email, $attach=array())
 	{
 		$mailer 	= JFactory::getMailer();
 		$config 	= JFactory::getConfig();
 
 		$fromname  	= $config->get('fromname');
-		$mailfrom	= $config->get('mailfrom');	
-	
-		$sender[]  	= $fromname;
-		$sender[]	= $mailfrom;	
-		
-        $mailer->setSender( $sender );
+		$mailfrom	= $config->get('mailfrom');
+
+        $mailer->setSender( $mailfrom, $fromname );
         $mailer->addRecipient( $email );
         $mailer->setSubject( $subject );
         $mailer->isHTML(true);
         $mailer->Encoding = 'base64';
-        $mailer->setBody( $body );   
-        
+        $mailer->setBody( $body );
+
         if(count($attach)) {
         	foreach($attach as $att) {
         		$mailer->addAttachment($att);
-        	}     
+        	}
         }
-        
-		return $mailer->Send();			
+
+		return $mailer->Send();
 	}
-	
+
 	public function upload($fieldname)
-	{   
+	{
 		$jinput  = JFactory::getApplication()->input;
-        $file    = $jinput->files->get('jform');  
+        $file    = $jinput->files->get('jform');
        	$allowed = array('pdf', 'xlsm', 'xls', 'csv', 'doc', 'docx', 'xlsx', 'odt', 'jpg', 'png', 'jpeg');
 
     	jimport('joomla.filesystem.file');
-     
+
     	$filename = JFile::makeSafe($file[$fieldname]['name']);
 
     	$src  = $file[$fieldname]['tmp_name'];
     	$dest = JPATH_ROOT."/tmp/".$filename;
-    	$extension = strtolower(JFile::getExt($filename)); 
+    	$extension = strtolower(JFile::getExt($filename));
 
     	if ( in_array($extension, $allowed) ) {
        		JFile::upload($src, $dest);

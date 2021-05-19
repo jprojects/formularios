@@ -18,14 +18,14 @@ class FormulariosModelSingle extends JModelItem
 	 * @return	array
 	 * @since	1.6
 	*/
-	public function getItem()
+	public function getItem($pk = null)
 	{
         $app = JFactory::getApplication();
         $db  = JFactory::getDbo();
         
         $id  = $app->input->get('formId', 1);
         
-        $db->setQuery('SELECT * FROM #__formularios_fields WHERE state = 1 AND formId = '.$id.' ORDER BY ordering');
+        $db->setQuery('SELECT * FROM `#__formularios_fields` WHERE state = 1 AND formId = '.$id.' ORDER BY ordering');
         return $db->loadObjectList();
 	}
 	/**
@@ -38,7 +38,7 @@ class FormulariosModelSingle extends JModelItem
 	{
         $db  = JFactory::getDbo();
         
-        $db->setQuery("select $field FROM #__formularios_forms where id = ".$formid);
+        $db->setQuery("SELECT $field FROM `#__formularios_forms` WHERE id = ".$formid);
         return $db->loadResult();
 	}
 	/**

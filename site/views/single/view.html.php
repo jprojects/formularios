@@ -28,7 +28,7 @@ class FormulariosViewSingle extends JViewLegacy
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseWarning(500, implode("\n", $errors));
+			$app->enqueueMessage(implode("\n", $errors));
 			return false;
 		}
 		
@@ -72,11 +72,8 @@ class FormulariosViewSingle extends JViewLegacy
 		
 		$params 	= JComponentHelper::getParams( 'com_formularios' );
 		$captcha    = $params->get('reCaptcha', 0);
-		$sitekey    = $params->get('reCaptcha_sitekey', 0);
+		$sitekey    = $params->get('reCaptcha_sitekey');
 		
-		$document->addStylesheet('components/com_formularios/assets/css/default.css');
-		$document->addScript('components/com_formularios/assets/js/jquery.js');
-
 		if($captcha == 1) {
 			$document->addScript('https://www.google.com/recaptcha/api.js?render='.$sitekey);
 		}

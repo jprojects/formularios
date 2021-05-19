@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies
-jimport('joomla.application.component.controller');
+define('DS', DIRECTORY_SEPARATOR);
 
 JLoader::registerPrefix('Formularios', JPATH_COMPONENT);
-JLoader::register('FormulariosController', JPATH_COMPONENT . '/controller.php');
 
+require_once (JPATH_COMPONENT.DS.'helpers'.DS.'formularios.php');
 
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Formularios');

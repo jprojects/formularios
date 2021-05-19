@@ -51,40 +51,17 @@
         	label="Contingut del texte" 
         	description="" 
         	filter="raw"
-        />
-    	<field name="privacy"
-			type="repeatable"
-			icon="list"
-			description="COM_FORMULARIOS_PRIVACY_DESC"
-			label="COM_FORMULARIOS_PRIVACY_LABEL"
-			default=''>
-			<fieldset hidden="true" name="list_templates_modal" repeat="true">
-				<field 
-					name="language" 
-					type="language" 
-					client="site" 
-					default="" 
-					label="Select a language" 
-					description="" 
-				/>
-				<field 
-					name="article" 
-					type="menuitem" 
-					default="" 
-					label="COM_FORMULARIOS_PRIVACY_LABEL" 
-					description="COM_FORMULARIOS_PRIVACY_DESC" 
-				/>				
-			</fieldset>
-		</field> 
+        /> 
 		<field 
 			name="footer"
-			type="repeatable"
-			icon="list"
+			type="subform"
 			description="COM_FORMULARIOS_FOOTER_DESC"
 			label="COM_FORMULARIOS_FOOTER_LABEL"
 			default=''
-			filter="raw">
-			<fieldset hidden="true" name="list_footer_modal" repeat="true">
+			min="1"
+			max="10"
+			multiple="true">
+			<form>
 				<field 
 					name="language" 
 					type="language" 
@@ -100,7 +77,7 @@
 					label="COM_FORMULARIOS_FOOTER_TEXT_LABEL" 
 					description="COM_FORMULARIOS_FOOTER_TEXT_DESC" 
 				/>				
-			</fieldset>
+			</form>
 		</field>
 		<field 
     		name="comercial" 

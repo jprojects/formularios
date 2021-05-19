@@ -30,6 +30,7 @@
         <filename>index.html</filename>
         <filename>formularios.php</filename>
         <filename>controller.php</filename>
+        <filename>router.php</filename>
         <folder>views</folder>
         <folder>models</folder>
         <folder>controllers</folder>
@@ -42,9 +43,9 @@
     </media>
     <languages folder="site/languages">
         
-			<language tag="ca-ES">ca-ES/com_formularios.ini</language>
-			<language tag="en-GB">en-GB/com_formularios.ini</language>
-			<language tag="es-ES">es-ES/com_formularios.ini</language>
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.ini</language>
     </languages>
     
     <updateservers>
@@ -74,12 +75,12 @@
         </files>
         <languages folder="administrator/languages">
             
-			<language tag="ca-ES">ca-ES/com_formularios.ini</language>
-			<language tag="ca-ES">ca-ES/com_formularios.sys.ini</language>
-			<language tag="en-GB">en-GB/com_formularios.ini</language>
-			<language tag="en-GB">en-GB/com_formularios.sys.ini</language>
-			<language tag="es-ES">es-ES/com_formularios.ini</language>
-			<language tag="es-ES">es-ES/com_formularios.sys.ini</language>
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.ini</language>
+			<language tag="ca-ES">ca-ES/ca-ES.com_formularios.sys.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_formularios.sys.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.ini</language>
+			<language tag="es-ES">es-ES/es-ES.com_formularios.sys.ini</language>
         </languages>
     </administration>
     
