@@ -22,10 +22,11 @@ if($model->isLogin($formid) && $user->guest) {
 	$app->redirect($returnurl, JText::_('COM_FORMULARIOS_LOGIN_BEFORE'));
 }
 
-$uri 	= base64_encode($url);
-$params = JComponentHelper::getParams( 'com_formularios' );
-$captchaEnabled = $params->get('reCaptcha', 0);
-$sitekey    	= $params->get('reCaptcha_sitekey', '');
+$uri 				= base64_encode($url);
+$params 			= JComponentHelper::getParams( 'com_formularios' );
+$captchaEnabled 	= $params->get('reCaptcha', 0);
+$sitekey    		= $params->get('reCaptcha_sitekey', '');
+$newsletter     	= $params->get('newsletter', 0);
 ?>
 
 <script>
@@ -108,7 +109,7 @@ grecaptcha.ready(function() {
 						<div class="col-xs-<?= $item->field_column; ?>">
 					  	<div class="form-group mb-3">
 
-					  		<?php if($item->field_label != '') : ?>
+					  		<?php if($item->field_label != '' && $item->field_type != 'checkbox') : ?>
 							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
 							<?php endif; ?>
 
@@ -132,6 +133,14 @@ grecaptcha.ready(function() {
 							</select>
 							<?php endif; ?>
 
+							<?php if($item->field_type == 'checkbox') : ?>
+								<div class="checkbox nopad mb-3">
+									<label>
+										<input name="<?= $item->field_name; ?>" type="checkbox"> <small><?= JText::_($item->field_label); ?></small>
+									</label>
+						  		</div>
+							<?php endif; ?>
+
 							<div class="validation"></div>
 					  	</div>
 					  	</div>
@@ -143,6 +152,13 @@ grecaptcha.ready(function() {
 							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
 								</label>
 						  	</div>
+							<?php if($newsletter <> 0) : ?>
+								<div class="checkbox nopad mb-3">
+									<label>
+										<input name="newsletter" value="1" type="checkbox"> <small><?= JText::_('COM_FORMULARIOS_NEWSLETTER_LBL'); ?></small>
+									</label>
+						  		</div>
+							<?php endif; ?>
 						  	<button type="submit" disabled="true" class="btn btn-primary submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>

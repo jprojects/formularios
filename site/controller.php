@@ -31,6 +31,11 @@ class FormulariosController extends JControllerLegacy
 
      	$params = JComponentHelper::getParams( 'com_formularios' );
 
+		$newsletter     		= $params->get('newsletter', 0);
+		$newsletter_apikey  	= $params->get('newsletter_apikey', '');
+		$newsletter_listId  	= $params->get('newsletter_listId', '');
+		$newsletter_clientId  	= $params->get('newsletter_clientId', '');
+
      	$data 	= $app->input->post->get('jform', array(), 'array');
      	$save	= $send = false;
      	$return = base64_decode($data['return']);
@@ -117,6 +122,27 @@ class FormulariosController extends JControllerLegacy
 			$save = $db->insertObject('#__formularios_stored', $form);
 
 			if($send && $save) {
+
+				//si l'opció newsletter es activa al backend i frontend i existeix el camp email, subscribim la persona
+				if(isset($data['newsletter']) && $newsletter <> 0 && $notify != '') {
+					//Mailchimp selected
+					if($newsletter == 1) {
+						include(JPATH_COMPONENT.'/assets/libs/MailChimp.php'); 
+						$MailChimp = new MailChimp($newsletter_apikey);
+
+						$result = $MailChimp->post("lists/$newsletter_listId/members", [
+							'email_address' => $notify,
+							'status'        => 'subscribed',
+						]);
+					}
+					//Campaing MOnitor selected
+					if($newsletter == 2) {
+						require_once(JPATH_COMPONENT.'/assets/libs/cm.php');
+						$cm = new CampaignMonitor( $newsletter_apikey, $newsletter_clientId, null, $newsletter_listId );
+						$cm->subscriberAdd($notify, '');
+					}
+				}
+
 				$msg = JText::_($success);
 				$type = 'info';
 				//enviem confirmació si hi ha email

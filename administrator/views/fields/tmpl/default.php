@@ -10,8 +10,16 @@
 // No direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/');
-JHtml::_('behavior.multiselect');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+
+HTMLHelper::_('behavior.multiselect');
 
 $formid = JFactory::getApplication()->input->get('formId');
 
@@ -22,16 +30,16 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/list.css');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->state->get('list.ordering');
-$listDirn  = $this->state->get('list.direction');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_formularios');
 $saveOrder = $listOrder == 'a.`ordering`';
 
-if ($saveOrder)
-{
-	$saveOrderingUrl = 'index.php?option=com_formularios&task=fields.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'formList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
-}
+// if ($saveOrder && !empty($this->items))
+// {
+	$saveOrderingUrl = 'index.php?option=com_formularios&task=fields.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+	HTMLHelper::_('draggablelist.draggable');
+//}
 
 $sortFields = $this->getSortFields();
 ?>
@@ -49,32 +57,31 @@ $sortFields = $this->getSortFields();
 				<tr>
 					<?php if (isset($this->items[0]->ordering)): ?>
 						<th width="1%" class="nowrap center hidden-phone">
-                            <?php echo JHtml::_('searchtools.sort', '', 'a.`ordering`', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
                         </th>
 					<?php endif; ?>
 					<th width="1%" class="hidden-phone">
-						<input type="checkbox" name="checkall-toggle" value=""
-							   title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)"/>
+						<?php echo HTMLHelper::_('grid.checkall'); ?>
 					</th>
 					<?php if (isset($this->items[0]->state)): ?>
-						<th width="1%" class="nowrap center">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.`state`', $listDirn, $listOrder); ?>
-</th>
+					<th width="1%" class="nowrap center">
+						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.`state`', $listDirn, $listOrder); ?>
+					</th>
 					<?php endif; ?>
 
-									<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_ID', 'a.`id`', $listDirn, $listOrder); ?>
-				</th>
-				<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDNAME', 'a.`field_name`', $listDirn, $listOrder); ?>
-				</th>
-				<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDTYPE', 'a.`field_type`', $listDirn, $listOrder); ?>
-				</th>
-				<th class='left'>
-				<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDREQUIRED', 'a.`field_required`', $listDirn, $listOrder); ?>
-				</th>
-				<th></th>
+					<th class='left'>
+						<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_ID', 'a.`id`', $listDirn, $listOrder); ?>
+					</th>
+					<th class='left'>
+						<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDNAME', 'a.`field_name`', $listDirn, $listOrder); ?>
+					</th>
+					<th class='left'>
+						<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDTYPE', 'a.`field_type`', $listDirn, $listOrder); ?>
+					</th>
+					<th class='left'>
+						<?php echo JHtml::_('searchtools.sort',  'COM_FORMULARIOS_FORMS_FIELDREQUIRED', 'a.`field_required`', $listDirn, $listOrder); ?>
+					</th>
+					<th></th>
 					
 				</tr>
 				</thead>
@@ -85,7 +92,7 @@ $sortFields = $this->getSortFields();
 					</td>
 				</tr>
 				</tfoot>
-				<tbody>
+				<tbody  class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true">
 				<?php foreach ($this->items as $i => $item) :
 					$ordering   = ($listOrder == 'a.ordering');
 					$canCreate  = $user->authorise('core.create', 'com_formularios');
@@ -96,35 +103,27 @@ $sortFields = $this->getSortFields();
 					<tr class="row<?php echo $i % 2; ?>">
 
 						<?php if (isset($this->items[0]->ordering)) : ?>
-							<td class="order nowrap center hidden-phone">
-								<?php if ($canChange) :
-									$disableClassName = '';
-									$disabledLabel    = '';
-
-									if (!$saveOrder) :
-										$disabledLabel    = JText::_('JORDERINGDISABLED');
-										$disableClassName = 'inactive tip-top';
-									endif; ?>
-									<span class="sortable-handler hasTooltip <?php echo $disableClassName ?>"
-										  title="<?php echo $disabledLabel ?>">
-							<i class="icon-menu"></i>
-						</span>
-									<input type="text" style="display:none" name="order[]" size="5"
-										   value="<?php echo $item->ordering; ?>" class="width-20 text-area-order "/>
-								<?php else : ?>
-									<span class="sortable-handler inactive">
-							<i class="icon-menu"></i>
-						</span>
-								<?php endif; ?>
-							</td>
+							<td class="text-center d-none d-md-table-cell">
+									<?php
+									$iconClass = '';
+									
+									?>
+									<span class="sortable-handler<?php echo $iconClass; ?>">
+										<span class="icon-ellipsis-v" aria-hidden="true"></span>
+									</span>
+									<?php //if ($canChange && $saveOrder) : ?>
+										<input type="text" name="order[]" size="5"
+											value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
+									<?php //endif; ?>
+								</td>
 						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<?php if (isset($this->items[0]->state)): ?>
-							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'forms.', $canChange, 'cb'); ?>
-</td>
+						<td class="center">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'forms.', $canChange, 'cb'); ?>
+						</td>
 						<?php endif; ?>
 
 										<td>

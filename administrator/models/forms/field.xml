@@ -32,6 +32,7 @@
     <option value="textarea">COM_FORMULARIOS_TYPE_AREA</option>
     <option value="email">COM_FORMULARIOS_TYPE_EMAIL</option>
     <option value="file">COM_FORMULARIOS_TYPE_FILE</option>
+    <option value="checkbox">Checkbox</option>
     </field>
     <field 
     	name="field_required" 

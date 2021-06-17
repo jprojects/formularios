@@ -51,17 +51,40 @@
         	label="Contingut del texte" 
         	description="" 
         	filter="raw"
-        /> 
+        />
+    	<field name="privacy"
+			type="repeatable"
+			icon="list"
+			description="COM_FORMULARIOS_PRIVACY_DESC"
+			label="COM_FORMULARIOS_PRIVACY_LABEL"
+			default=''>
+			<fieldset hidden="true" name="list_templates_modal" repeat="true">
+				<field 
+					name="language" 
+					type="language" 
+					client="site" 
+					default="" 
+					label="Select a language" 
+					description="" 
+				/>
+				<field 
+					name="article" 
+					type="menuitem" 
+					default="" 
+					label="COM_FORMULARIOS_PRIVACY_LABEL" 
+					description="COM_FORMULARIOS_PRIVACY_DESC" 
+				/>				
+			</fieldset>
+		</field> 
 		<field 
 			name="footer"
-			type="subform"
+			type="repeatable"
+			icon="list"
 			description="COM_FORMULARIOS_FOOTER_DESC"
 			label="COM_FORMULARIOS_FOOTER_LABEL"
 			default=''
-			min="1"
-			max="10"
-			multiple="true">
-			<form>
+			filter="raw">
+			<fieldset hidden="true" name="list_footer_modal" repeat="true">
 				<field 
 					name="language" 
 					type="language" 
@@ -77,7 +100,7 @@
 					label="COM_FORMULARIOS_FOOTER_TEXT_LABEL" 
 					description="COM_FORMULARIOS_FOOTER_TEXT_DESC" 
 				/>				
-			</form>
+			</fieldset>
 		</field>
 		<field 
     		name="comercial" 
@@ -148,6 +171,38 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
+		<field 
+    		name="newsletter" 
+    		type="list" 
+    		default="0" 
+    		label="Newsletter" 
+    		description=""
+    	>
+            <option value="0">None</option>
+            <option value="1">Mailchimp</option>
+			<option value="1">Campaign Monitor</option>
+        </field>
+		<field 
+        	name="newsletter_apikey" 
+        	type="text" 
+        	default="" 
+        	label="Newsletter API Key" 
+        	description="Required by Campaign Monitor and Mailchimp" 
+        />
+		<field 
+        	name="newsletter_listId" 
+        	type="text" 
+        	default="" 
+        	label="Newsletter List ID" 
+        	description="Required by Campaign Monitor and Mailchimp" 
+        />
+		<field 
+        	name="newsletter_clientId" 
+        	type="text" 
+        	default="" 
+        	label="Newsletter Client ID" 
+        	description="Required by Campaign Monitor" 
+        />
     </fieldset>
 
     <fieldset name="permissions" description="JCONFIG_PERMISSIONS_DESC" label="JCONFIG_PERMISSIONS_LABEL">
