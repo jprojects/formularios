@@ -59,8 +59,11 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 				<?php echo $this->form->renderField('field_hint'); ?>
 				<?php echo $this->form->renderField('field_type'); ?>
 				<?php echo $this->form->renderField('field_values'); ?>
-				<?php echo $this->form->renderField('field_msg'); ?>
+				<?php echo $this->form->renderField('field_msg_success'); ?>
+				<?php echo $this->form->renderField('field_msg_error'); ?>
 				<?php echo $this->form->renderField('field_required'); ?>
+				<?php echo $this->form->renderField('field_readonly'); ?>
+				<?php echo $this->form->renderField('field_disabled'); ?>
 				<?php echo $this->form->renderField('field_column'); ?>
 				<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
 				<?php echo $this->form->renderField('state'); ?>

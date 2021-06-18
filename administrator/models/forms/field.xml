@@ -32,7 +32,9 @@
     <option value="textarea">COM_FORMULARIOS_TYPE_AREA</option>
     <option value="email">COM_FORMULARIOS_TYPE_EMAIL</option>
     <option value="file">COM_FORMULARIOS_TYPE_FILE</option>
-    <option value="checkbox">Checkbox</option>
+    <option value="checkbox">COM_FORMULARIOS_TYPE_CHECKBOX</option>
+    <option value="radio">COM_FORMULARIOS_TYPE_RADIO</option>
+    <option value="spacer">COM_FORMULARIOS_TYPE_SPACER</option>
     </field>
     <field 
     	name="field_required" 
@@ -47,7 +49,34 @@
     <option value="0">JNO</option>
     <option value="1">JYES</option>
     </field>
-    <field name="field_msg" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDMSG" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG"/>
+    <field 
+    	name="field_readonly" 
+    	type="radio" 
+    	default="0" 
+    	required="true" 
+    	message="El campo es solo de lectura" 
+    	label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDREADONLY" 
+    	description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDREADONLY" 
+    	class="btn-group" 
+    >
+    <option value="0">JNO</option>
+    <option value="1">JYES</option>
+    </field>
+    <field 
+    	name="field_disabled" 
+    	type="radio" 
+    	default="0" 
+    	required="true" 
+    	message="El campo está desactivado" 
+    	label="COM_FORMULARIOS_FORM_LBL_FORM_DISABLED" 
+    	description="COM_FORMULARIOS_FORM_DESC_FORM_DISABLED" 
+    	class="btn-group" 
+    >
+    <option value="0">JNO</option>
+    <option value="1">JYES</option>
+    </field>
+    <field name="field_msg_success" filter="safehtml" default="COM_FORMULARIOS_VALIDATION_SUCCESS_MSG" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG_SUCCESS" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDMSG_SUCCESS" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG_SUCCESS"/>
+    <field name="field_msg_error" filter="safehtml" default="COM_FORMULARIOS_VALIDATION_ERROR_MSG" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG_ERROR" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDMSG_ERROR" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDMSG_ERROR"/>
     <field name="field_label" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDLABEL" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDLABEL"/>
     <field name="field_hint" filter="safehtml" type="text" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDHINT" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDHINT" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDHINT"/>
     <field name="field_values" filter="safehtml" type="textarea" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_FIELDVALUES" description="COM_FORMULARIOS_FORM_DESC_FORM_FIELDVALUES" hint="COM_FORMULARIOS_FORM_LBL_FORM_FIELDVALUES" rows="10" cols="5"/>

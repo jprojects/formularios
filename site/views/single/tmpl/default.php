@@ -54,6 +54,26 @@ grecaptcha.ready(function() {
 	recaptchaResponse.value = token;
 	});
 });
+
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
 </script>
 
 <?php if($params->get('honeypot', 0) == 1) : ?>
@@ -90,7 +110,7 @@ grecaptcha.ready(function() {
 					<div id="sendmessage">
 						 <!-- message -->
 					</div>
-					<form action="<?= JURI::root(); ?>index.php?option=com_formularios&task=sendForm" method="post" role="form" id="contactForm" class="contactForm" enctype="multipart/form-data">
+					<form action="<?= JURI::root(); ?>index.php?option=com_formularios&task=sendForm" method="post" role="form" id="contactForm" class="contactForm needs-validation" novalidate enctype="multipart/form-data">
 						<?php if($captchaEnabled == 1) : ?>
 						<input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
 						<?php endif; ?>
@@ -106,20 +126,22 @@ grecaptcha.ready(function() {
 						<?php foreach($model->getItem() as $item) : ?>
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
+						<?php $item->field_readonly == 1 ? $readonly = 'readonly' : $readonly = ''; ?>
+						<?php $item->field_disabled == 1 ? $disabled = 'disabled' : $disabled = ''; ?>
 						<div class="col-xs-<?= $item->field_column; ?>">
 					  	<div class="form-group mb-3">
 
-					  		<?php if($item->field_label != '' && $item->field_type != 'checkbox') : ?>
+					  		<?php if($item->field_label != '' && $item->field_type != 'checkbox' && $item->field_type != 'radio' && $item->field_type != 'spacer') : ?>
 							<label for="jform_<?= $item->field_name; ?>"><?= JText::_($item->field_label); ?>: <?= $star; ?></label>
 							<?php endif; ?>
 
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
-							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
 
 							<?php elseif($item->field_type == 'select') : ?>
-							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
+							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
@@ -133,15 +155,20 @@ grecaptcha.ready(function() {
 							</select>
 							<?php endif; ?>
 
-							<?php if($item->field_type == 'checkbox') : ?>
+							<?php if($item->field_type == 'spacer') : ?>
+							<?= JText::_($item->field_label); ?>
+							<?php endif; ?>
+
+							<?php if($item->field_type == 'checkbox' || $item->field_type == 'radio') : ?>
 								<div class="checkbox nopad mb-3">
 									<label>
-										<input name="<?= $item->field_name; ?>" type="checkbox"> <small><?= JText::_($item->field_label); ?></small>
+										<input name="<?= $item->field_name; ?>" <?= $disabled; ?> type="checkbox"> <small><?= JText::_($item->field_label); ?></small>
 									</label>
 						  		</div>
 							<?php endif; ?>
 
-							<div class="validation"></div>
+							<div class="valid-feedback"><?= JText::_('COM_FORMULARIOS_VALIDATION_SUCCESS_MSG'); ?></div>
+							<div class="invalid-feedback"><?= JText::_('COM_FORMULARIOS_VALIDATION_ERROR_MSG'); ?></div>
 					  	</div>
 					  	</div>
 					  	<?php endforeach; ?>
