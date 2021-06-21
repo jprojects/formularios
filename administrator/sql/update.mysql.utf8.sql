@@ -1,4 +1,4 @@
-ALTER TABLE `#__formularios_fields` ADD `field_msg_success` VARCHAR(150) NOT NULL DEFAULT 'COM_FORMULARIOS_VALIDATION_SUCCESS_MSG' AFTER `field_long`;
+ALTER TABLE `#__formularios_fields` ADD `field_msg_success` VARCHAR(150) NOT NULL DEFAULT 'COM_FORMULARIOS_VALIDATION_SUCCESS_MSG' AFTER `field_column`;
 
 ALTER TABLE `#__formularios_fields` ADD `field_msg_error` VARCHAR(150) NOT NULL DEFAULT 'COM_FORMULARIOS_VALIDATION_ERROR_MSG' AFTER `field_msg_success`;
 

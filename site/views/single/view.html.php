@@ -73,6 +73,8 @@ class FormulariosViewSingle extends JViewLegacy
 		$params 	= JComponentHelper::getParams( 'com_formularios' );
 		$captcha    = $params->get('reCaptcha', 0);
 		$sitekey    = $params->get('reCaptcha_sitekey');
+
+		$document->addScript('https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js');
 		
 		if($captcha == 1) {
 			$document->addScript('https://www.google.com/recaptcha/api.js?render='.$sitekey);

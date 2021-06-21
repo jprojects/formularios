@@ -7,7 +7,7 @@
     <author>aficat</author>
     <authorEmail>kim@aficat.com</authorEmail>
     <authorUrl>http://www.afi.cat</authorUrl>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <description>Gestor de formularios para Joomla! 4</description>   
     
     <install> <!-- Runs on install -->

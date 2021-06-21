@@ -42,6 +42,8 @@ class FormulariosController extends JControllerLegacy
      	$attach = array();
      	$files  = array();
      	$notify = '';
+		$selector_status = $data['selector_status'];
+		$selector = $data['selector'];
 
      	if($params->get('honeypot', 0) == 1) {
 			if($data['honeypot'] !== "") {
@@ -90,8 +92,7 @@ class FormulariosController extends JControllerLegacy
 		 	}
 
 		 	//enviem l'email
-		 	unset($data['return']);
-		 	unset($data['type']);
+		 	unset($data['return'], $data['type'], $data['selector_status'], $data['selector']);
 
 		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$type);
 		 	$success = $db->loadResult();
@@ -107,7 +108,7 @@ class FormulariosController extends JControllerLegacy
 		 	}
 
 			//si tenim un camp de tipus selector l'email es reemplazat per el del selector
-			if($data['selector_status'] == 1) { $email = $data['selector']; } else { $email = $row->email; }
+			if($selector_status == 1) { $email = $selector; } else { $email = $row->email; }
 		 	$send = $this->enviar($subject, $body, $email, $attach);
 		 	//uncomment below for test purpouses
 			//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
@@ -151,7 +152,7 @@ class FormulariosController extends JControllerLegacy
 				$type = 'info';
 				//enviem confirmació si hi ha email
 				if($notify != '') {
-					$this->enviar($subject, $success, $notify, $attach);
+					$this->enviar($subject, $body, $notify, $attach);
 				}
 			} else {
 				$msg = JText::_($error);
