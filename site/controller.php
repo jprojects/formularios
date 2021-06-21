@@ -60,9 +60,10 @@ class FormulariosController extends JControllerLegacy
         }
 
         if($responseKeys['score'] >= 0.6 || $captchaEnabled == 0) {
-		 	//recollim dades necessaries del formulari pare
-		 	$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
-		 	$row = $db->loadObject();
+
+			//recollim dades necessaries del formulari pare
+			$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
+			$row = $db->loadObject();
 
 		 	//recollim tota la informació dels camps del formulari
 		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.$data['type'].' AND state = 1');
@@ -105,8 +106,11 @@ class FormulariosController extends JControllerLegacy
 		 		}
 		 	}
 
-		 	$send = $this->enviar($subject, $body, $row->email, $attach);
-		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
+			//si tenim un camp de tipus selector l'email es reemplazat per el del selector
+			if($data['selector_status'] == 1) { $email = $data['selector']; } else { $email = $row->email; }
+		 	$send = $this->enviar($subject, $body, $email, $attach);
+		 	//uncomment below for test purpouses
+			//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
 
 		 	//insertem el missatge a la base de dades
 		 	$form 					= new stdClass();

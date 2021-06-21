@@ -35,6 +35,7 @@
     <option value="checkbox">COM_FORMULARIOS_TYPE_CHECKBOX</option>
     <option value="radio">COM_FORMULARIOS_TYPE_RADIO</option>
     <option value="spacer">COM_FORMULARIOS_TYPE_SPACER</option>
+    <option value="selector">COM_FORMULARIOS_TYPE_SELECTOR</option>
     </field>
     <field 
     	name="field_required" 
