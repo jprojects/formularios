@@ -49,13 +49,21 @@ class FormulariosHelpersFormularios
     */
     public static function getPrivacyPolicy()
     {
-    	$params = JComponentHelper::getParams( 'com_jpframework' );
+    	$params = JComponentHelper::getParams( 'com_formularios' );
 		$lang = JFactory::getLanguage()->getTag();
-		$articles = $params->get('privacy');
-		foreach ($articles as $art)
-        { 
-			if($art->language == $lang) { return $art->article; }
-        }
+		$articles = json_decode($params->get('privacy'));
+		foreach ($articles as $art) 
+      	{
+			foreach ($art as $k => $v) 
+			{
+				$result[$k][] = $v;
+			}
+      	}
+      	
+	  	foreach ($result as $index=>$value) 
+		{   
+			if($value[0] == $lang) { return $value[1]; }
+		}
     }
     
     /**
@@ -81,6 +89,21 @@ class FormulariosHelpersFormularios
 			if($value[0] == $lang) { return $value[1]; }
 		}
     }
+
+	/**
+	 * method to write in a debug log
+	 * @param $text string The text to write in the log file
+	 * @param $logfile string The file where to write the log file
+	 * @params $logfile the destination lof file
+	*/
+    public static function customLog($text, $logfile=null) {
+		if ($logfile==null) {
+			$logfile = JPATH_COMPONENT.'/logs/afi.log';
+		}
+		$handle = fopen($logfile, 'a');
+		fwrite($handle, date('d-M-Y H:i:s') . ': ' . $text . "\n");
+		fclose($handle);
+	}
 
     /**
      * Gets the edit permission for an user

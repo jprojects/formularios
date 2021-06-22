@@ -180,7 +180,7 @@
     	>
             <option value="0">None</option>
             <option value="1">Mailchimp</option>
-			<option value="1">Campaign Monitor</option>
+			<option value="2">Campaign Monitor</option>
         </field>
 		<field 
         	name="newsletter_apikey" 

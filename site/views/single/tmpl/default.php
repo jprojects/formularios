@@ -47,7 +47,6 @@ jQuery(document).ready(function() {
 	});
 });
 
-<?php if($captchaEnabled == 1) : ?>
 grecaptcha.ready(function() {
 	grecaptcha.execute('<?= $sitekey; ?>', {action: 'contact'})
 	.then(function(token) {
@@ -55,7 +54,6 @@ grecaptcha.ready(function() {
 	recaptchaResponse.value = token;
 	});
 });
-<?php endif; ?>
 
 (function () {
   'use strict'
@@ -126,11 +124,6 @@ grecaptcha.ready(function() {
 
 
 						<?php foreach($model->getItem() as $item) : ?>
-
-						<?php if($item->field_type == 'selector') : ?>
-						<input type="hidden" name="jform[selector_status]" value="1" />
-						<?php endif; ?>
-
 						<?php $item->field_required == 1 ? $required = 'required="true"' : $required = ''; ?>
 						<?php $item->field_required == 1 ? $star = '*' : $star = ''; ?>
 						<?php $item->field_readonly == 1 ? $readonly = 'readonly' : $readonly = ''; ?>
@@ -147,8 +140,8 @@ grecaptcha.ready(function() {
 							<?php elseif($item->field_type == 'textarea') : ?>
 							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
 
-							<?php elseif($item->field_type == 'select' || $item->field_type == 'selector') : ?>
-							<select name="jform[<?= $item->field_type == 'select' ? $item->field_name : 'selector'; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
+							<?php elseif($item->field_type == 'select') : ?>
+							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
@@ -183,13 +176,13 @@ grecaptcha.ready(function() {
 							<div class="checkbox nopad mb-3">
 								<label>
 							  		<?php $link = JRoute::_('index.php?Itemid='.FormulariosHelpersFormularios::getPrivacyPolicy()); ?>
-							  		<input class="tos" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
+							  		<input name="jform[tos]" class="tos" value="0" onclick="this.value==0?this.value=1:this.value=0;" type="checkbox"> <small><?= JText::sprintf('COM_FORMULARIOS_TOS', $link); ?>.</small>
 								</label>
 						  	</div>
 							<?php if($newsletter <> 0) : ?>
 								<div class="checkbox nopad mb-3">
 									<label>
-										<input name="newsletter" value="1" type="checkbox"> <small><?= JText::_('COM_FORMULARIOS_NEWSLETTER_LBL'); ?></small>
+										<input name="jform[newsletter]" value="0" onclick="this.value==0?this.value=1:this.value=0;" type="checkbox"> <small><?= JText::_('COM_FORMULARIOS_NEWSLETTER_LBL'); ?></small>
 									</label>
 						  		</div>
 							<?php endif; ?>

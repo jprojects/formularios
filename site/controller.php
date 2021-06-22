@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+require_once(JPATH_COMPONENT.'/assets/libs/Mailchimp.php'); 
+require_once(JPATH_COMPONENT.'/assets/libs/cm.php');
+
+use \DrewM\MailChimp\MailChimp;
+
 /**
  * Class FormulariosController
  *
@@ -42,8 +47,6 @@ class FormulariosController extends JControllerLegacy
      	$attach = array();
      	$files  = array();
      	$notify = '';
-		$selector_status = $data['selector_status'];
-		$selector = $data['selector'];
 
      	if($params->get('honeypot', 0) == 1) {
 			if($data['honeypot'] !== "") {
@@ -62,10 +65,9 @@ class FormulariosController extends JControllerLegacy
         }
 
         if($responseKeys['score'] >= 0.6 || $captchaEnabled == 0) {
-
-			//recollim dades necessaries del formulari pare
-			$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
-			$row = $db->loadObject();
+		 	//recollim dades necessaries del formulari pare
+		 	$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
+		 	$row = $db->loadObject();
 
 		 	//recollim tota la informació dels camps del formulari
 		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.$data['type'].' AND state = 1');
@@ -92,7 +94,8 @@ class FormulariosController extends JControllerLegacy
 		 	}
 
 		 	//enviem l'email
-		 	unset($data['return'], $data['type'], $data['selector_status'], $data['selector']);
+		 	unset($data['return']);
+		 	unset($data['type']);
 
 		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$type);
 		 	$success = $db->loadResult();
@@ -107,11 +110,8 @@ class FormulariosController extends JControllerLegacy
 		 		}
 		 	}
 
-			//si tenim un camp de tipus selector l'email es reemplazat per el del selector
-			if($selector_status == 1) { $email = $selector; } else { $email = $row->email; }
-		 	$send = $this->enviar($subject, $body, $email, $attach);
-		 	//uncomment below for test purpouses
-			//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
+		 	$send = $this->enviar($subject, $body, $row->email, $attach);
+		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
 
 		 	//insertem el missatge a la base de dades
 		 	$form 					= new stdClass();
@@ -132,17 +132,23 @@ class FormulariosController extends JControllerLegacy
 				if(isset($data['newsletter']) && $newsletter <> 0 && $notify != '') {
 					//Mailchimp selected
 					if($newsletter == 1) {
-						include(JPATH_COMPONENT.'/assets/libs/MailChimp.php'); 
 						$MailChimp = new MailChimp($newsletter_apikey);
+
+						//FormulariosHelpersFormularios::customLog('ok:: '.$notify);
 
 						$result = $MailChimp->post("lists/$newsletter_listId/members", [
 							'email_address' => $notify,
 							'status'        => 'subscribed',
 						]);
+
+						// if ($MailChimp->success()) {
+						// 	FormulariosHelpersFormularios::customLog('ok:: '.$result);	
+						// } else {
+						// 	FormulariosHelpersFormularios::customLog($MailChimp->getLastError());
+						// }
 					}
 					//Campaing MOnitor selected
 					if($newsletter == 2) {
-						require_once(JPATH_COMPONENT.'/assets/libs/cm.php');
 						$cm = new CampaignMonitor( $newsletter_apikey, $newsletter_clientId, null, $newsletter_listId );
 						$cm->subscriberAdd($notify, '');
 					}
@@ -152,7 +158,7 @@ class FormulariosController extends JControllerLegacy
 				$type = 'info';
 				//enviem confirmació si hi ha email
 				if($notify != '') {
-					$this->enviar($subject, $body, $notify, $attach);
+					$this->enviar($subject, $msg, $notify, $attach);
 				}
 			} else {
 				$msg = JText::_($error);
