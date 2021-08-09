@@ -27,6 +27,8 @@ $params 			= JComponentHelper::getParams( 'com_formularios' );
 $captchaEnabled 	= $params->get('reCaptcha', 0);
 $sitekey    		= $params->get('reCaptcha_sitekey', '');
 $newsletter     	= $params->get('newsletter', 0);
+$size     			= $params->get('input_size', '');
+$btn_class          = $params->get('btn_class', 'primary');
 ?>
 
 <script>
@@ -136,12 +138,12 @@ grecaptcha.ready(function() {
 							<?php endif; ?>
 
 							<?php if($item->field_type == 'text' || $item->field_type == 'email') : ?>
-							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
-							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
 
 							<?php elseif($item->field_type == 'select') : ?>
-							<select name="jform[<?= $item->field_name; ?>]" class="form-control" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
+							<select name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
 							<option value=""><?= JText::_('COM_FORMULARIOS_SELECT_OPTION'); ?></option>
 							<?php $values = explode(',', $item->field_values); ?>
 							<?php foreach($values as $value) : ?>
@@ -186,7 +188,7 @@ grecaptcha.ready(function() {
 									</label>
 						  		</div>
 							<?php endif; ?>
-						  	<button type="submit" disabled="true" class="btn btn-primary submit"><?= JText::_('JSUBMIT'); ?></button>
+						  	<button type="submit" disabled="true" class="btn btn-<?= $btn_class; ?> submit"><?= JText::_('JSUBMIT'); ?></button>
 					  	</div>
 					</form>
 					<div class="my-4"><?= FormulariosHelpersFormularios::getFooter(); ?></div>

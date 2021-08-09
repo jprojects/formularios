@@ -94,8 +94,7 @@ class FormulariosController extends JControllerLegacy
 		 	}
 
 		 	//enviem l'email
-		 	unset($data['return']);
-		 	unset($data['type']);
+		 	unset($data['return'],$data['type'],$data['tos']);
 
 		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$type);
 		 	$success = $db->loadResult();
@@ -155,7 +154,7 @@ class FormulariosController extends JControllerLegacy
 				}
 
 				$msg = JText::_($success);
-				$type = 'info';
+				$type = 'success';
 				//enviem confirmació si hi ha email
 				if($notify != '') {
 					$this->enviar($subject, $msg, $notify, $attach);
@@ -165,7 +164,7 @@ class FormulariosController extends JControllerLegacy
 				$type = 'error';
 			}
 		} else {
-			$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL'.$responseKeys['score']);
+			$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL');
 		   	$type = 'error';
 		}
 

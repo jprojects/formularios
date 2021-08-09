@@ -49,21 +49,15 @@ class FormulariosHelpersFormularios
     */
     public static function getPrivacyPolicy()
     {
-    	$params = JComponentHelper::getParams( 'com_formularios' );
-		$lang = JFactory::getLanguage()->getTag();
-		$articles = json_decode($params->get('privacy'));
+    	$params 	= JComponentHelper::getParams( 'com_formularios' );
+		$lang 		= JFactory::getLanguage()->getTag();
+		$articles 	= $params->get('privacy');
+		$i = 0;
 		foreach ($articles as $art) 
       	{
-			foreach ($art as $k => $v) 
-			{
-				$result[$k][] = $v;
-			}
+			if($art->language == $lang) { return $art->article; }
+			$i++;
       	}
-      	
-	  	foreach ($result as $index=>$value) 
-		{   
-			if($value[0] == $lang) { return $value[1]; }
-		}
     }
     
     /**

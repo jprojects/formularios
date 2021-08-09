@@ -19,7 +19,7 @@
     </field>
     <field name="success_msg" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_SUCCESS" description="COM_FORMULARIOS_FORM_DESC_FORM_SUCCESS" hint="COM_FORMULARIOS_FORM_LBL_FORM_SUCCESS"/>
     <field name="error_msg" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_ERROR" description="COM_FORMULARIOS_FORM_DESC_FORM_ERROR" hint="COM_FORMULARIOS_FORM_LBL_FORM_ERROR"/>
-    <field name="checked_out" type="hidden" filter="unset"/>
+    <field name="checked_out" type="hidden" default="0" filter="unset"/>
     <field name="checked_out_time" default="0000-00-00 00:00:00" type="hidden" filter="unset"/>
     <field name="created_by" type="createdby" default="0" label="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY" description="COM_FORMULARIOS_FORM_DESC_FORM_CREATED_BY" hidden="true" hint="COM_FORMULARIOS_FORM_LBL_FORM_CREATED_BY"/>
   </fieldset>

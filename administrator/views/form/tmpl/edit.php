@@ -64,8 +64,8 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 				<?php echo $this->form->renderField('selector'); ?>
 				<?php echo $this->form->renderField('success_msg'); ?>
 				<?php echo $this->form->renderField('error_msg'); ?>
-				<input type="hidden" name="jform[checked_out]" value="<?php echo $this->item->checked_out; ?>" />
-				<input type="hidden" name="jform[checked_out_time]" value="<?php echo $this->item->checked_out_time; ?>" />
+				<input type="hidden" name="jform[checked_out]" value="<?php echo JFactory::getUser()->id; ?>" />
+				<input type="hidden" name="jform[checked_out_time]" value="<?php echo date('Y-m-d H:i:s'); ?>" />
 
 				<?php echo $this->form->renderField('created_by'); ?>
 

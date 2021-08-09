@@ -53,12 +53,14 @@
         	filter="raw"
         />
     	<field name="privacy"
-			type="repeatable"
+			type="subform"
 			icon="list"
 			description="COM_FORMULARIOS_PRIVACY_DESC"
 			label="COM_FORMULARIOS_PRIVACY_LABEL"
-			default=''>
-			<fieldset hidden="true" name="list_templates_modal" repeat="true">
+			multiple='true'
+			min="1"
+			max="10">
+			<form>
 				<field 
 					name="language" 
 					type="language" 
@@ -74,7 +76,7 @@
 					label="COM_FORMULARIOS_PRIVACY_LABEL" 
 					description="COM_FORMULARIOS_PRIVACY_DESC" 
 				/>				
-			</fieldset>
+			</form>
 		</field> 
 		<field 
 			name="footer"
@@ -102,6 +104,27 @@
 				/>				
 			</fieldset>
 		</field>
+		<field 
+    		name="input_size" 
+    		type="list" 
+    		default="" 
+    		label="Input Size" 
+    		description=""
+    	>
+            <option value="">Default</option>
+            <option value="-sm">SM</option>
+			<option value="-lg">LG</option>
+        </field>
+		<field 
+    		name="btn_class" 
+    		type="list" 
+    		default="primary" 
+    		label="Button class" 
+    		description=""
+    	>
+            <option value="primary">Primary</option>
+            <option value="secondary">Secondary</option>
+        </field>
 		<field 
     		name="comercial" 
     		type="radio" 
