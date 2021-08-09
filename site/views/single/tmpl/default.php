@@ -141,6 +141,9 @@ grecaptcha.ready(function() {
 							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?php if($item->field_type == 'email') : ?>data-rule="email"<?php endif; ?> <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 							<?php elseif($item->field_type == 'textarea') : ?>
 							<textarea rows="10" name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" placeholder="<?= JText::_($item->field_hint); ?>" data-msg="<?= $item->field_msg; ?>"></textarea>
+								
+							<?php elseif($item->field_type == 'date') : ?>
+							<input type="<?= $item->field_type; ?>" name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" id="jform_<?= $item->field_name; ?>" placeholder="<?= JText::_($item->field_hint); ?>" <?= $required; ?> data-msg="<?= $item->field_msg; ?>" />
 
 							<?php elseif($item->field_type == 'select') : ?>
 							<select name="jform[<?= $item->field_name; ?>]" class="form-control<?= $size; ?>" <?= $required; ?> <?= $readonly; ?> <?= $disabled; ?> id="jform_<?= $item->field_uniqid; ?>" data-msg="<?= $item->field_msg; ?>">
