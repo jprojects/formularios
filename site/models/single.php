@@ -20,54 +20,41 @@ class FormulariosModelSingle extends JModelItem
 	*/
 	public function getItem($pk = null)
 	{
-        $app = JFactory::getApplication();
-        $db  = JFactory::getDbo();
+        $app 	= JFactory::getApplication();
+        $db  	= JFactory::getDbo();
         
-        $id  = $app->input->get('formId', 1);
+        $id  	= $app->input->get('formId', 1);
+		$step  	= $app->input->get('step', 0);
         
-        $db->setQuery('SELECT * FROM `#__formularios_fields` WHERE state = 1 AND formId = '.$id.' ORDER BY ordering');
+        $db->setQuery('SELECT * FROM `#__formularios_fields` WHERE state = 1 AND formId = '.($step != 0 ? $step : $id).' ORDER BY ordering');
         return $db->loadObjectList();
 	}
+	
 	/**
-	 * Get a form title.
+	 * Get all
 	 *
 	 * @return	array
 	 * @since	1.6
 	*/
-	public function getFormData($field, $formid=1)
+	public function getFormData($id)
 	{
         $db  = JFactory::getDbo();
         
-        $db->setQuery("SELECT $field FROM `#__formularios_forms` WHERE id = ".$formid);
-        return $db->loadResult();
+        $db->setQuery('select * FROM `#__formularios_forms` WHERE id = '.$id);
+        return $db->loadObject();
 	}
+
 	/**
-	 * Get a form title.
+	 * Get the number of forms in advanced mode
 	 *
 	 * @return	array
 	 * @since	1.6
 	*/
-	public function getFormTitle($formid=1)
+	public function getNumberOfForms($id)
 	{
         $db  = JFactory::getDbo();
         
-        $db->setQuery('select name FROM #__formularios_forms where id = '.$formid);
+        $db->setQuery('select COUNT(id) FROM `#__formularios_forms` WHERE child = '.$id);
         return $db->loadResult();
-	}
-	/**
-	 * Know if it's a login form
-	 *
-	 * @return	array
-	 * @since	1.6
-	*/
-	public function isLogin($id)
-	{
-        $db  = JFactory::getDbo();
-        
-        $db->setQuery('select registered FROM #__formularios_forms WHERE id = '.$id);
-        if($db->loadResult() == 1) {
-        	return true;
-        }
-        return false;
 	}
 }

@@ -3,6 +3,18 @@
   <fieldset>
     <field name="id" type="text" readonly="true" class="readonly" default="0" description="JGLOBAL_FIELD_ID_DESC"/>
     <field name="name" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_NAME" description="COM_FORMULARIOS_FORM_DESC_FORM_NAME" hint="COM_FORMULARIOS_FORM_LBL_FORM_NAME"/>
+    <field
+    	name="child"
+    	type="sql"
+    	default=""
+    	label="Child"
+    	query="SELECT id, name FROM #__formularios_forms"
+    	key_field="id"
+    	value_field="name"
+      showon="advanced:1"
+    >
+    <option value="">COM_FORMULARIOS_SELECT_OPTION</option>
+	  </field>
     <field name="heading" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_HEADING" description="COM_FORMULARIOS_FORM_DESC_FORM_HEADING" hint="COM_FORMULARIOS_FORM_LBL_FORM_HEADING"/>
     <field name="subheading" type="textarea" label="COM_FORMULARIOS_FORM_LBL_FORM_SUBHEADING" filter="safehtml" description="COM_FORMULARIOS_FORM_DESC_FORM_SUBHEADING" class="inputbox" labelclass="control-label"/>
     <field name="email" filter="safehtml" type="text" required="true" message="El campo es obligatorio" label="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL" description="COM_FORMULARIOS_FORM_DESC_FORM_EMAIL" hint="COM_FORMULARIOS_FORM_LBL_FORM_EMAIL"/>
@@ -10,6 +22,22 @@
       <option value="1">JYES</option>
       <option value="0">JNO</option>
     </field>
+    <field name="advanced" default="0" type="list" label="COM_FORMULARIOS_FORM_LBL_FORM_ADVANCED" description="COM_FORMULARIOS_FORM_DESC_FORM_ADVANCED">
+      <option value="1">JYES</option>
+      <option value="0">JNO</option>
+    </field>
+    <field
+    	name="redirect"
+    	type="sql"
+    	default=""
+    	label="Redirecció"
+    	query="SELECT id, name FROM #__formularios_forms"
+    	key_field="id"
+    	value_field="name"
+      showon="advanced:1"
+    >
+    <option value="">COM_FORMULARIOS_SELECT_OPTION</option>
+	  </field>
     <field name="ordering"/>
     <field name="state" default="1" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC">
       <option value="1">JPUBLISHED</option>

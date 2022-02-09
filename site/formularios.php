@@ -15,6 +15,8 @@ JLoader::registerPrefix('Formularios', JPATH_COMPONENT);
 
 require_once (JPATH_COMPONENT.DS.'helpers'.DS.'formularios.php');
 
+JFactory::getDocument()->addStylesheet('components/com_formularios/assets/css/forms.css');
+
 // Execute the task.
 $controller = JControllerLegacy::getInstance('Formularios');
 $controller->execute(JFactory::getApplication()->input->get('task'));

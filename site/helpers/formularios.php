@@ -70,17 +70,19 @@ class FormulariosHelpersFormularios
     	$params = JComponentHelper::getParams( 'com_formularios' );
 		$lang = JFactory::getLanguage()->getTag();
 		$articles = json_decode($params->get('footer'));
-		foreach ($articles as $art) 
-      	{
-			foreach ($art as $k => $v) 
+		if(count($articles)) {
+			foreach ($articles as $art) 
 			{
-				$result[$k][] = $v;
+				foreach ($art as $k => $v) 
+				{
+					$result[$k][] = $v;
+				}
 			}
-      	}
-      	
-	  	foreach ($result as $index=>$value) 
-		{   
-			if($value[0] == $lang) { return $value[1]; }
+			
+			foreach ($result as $index=>$value) 
+			{   
+				if($value[0] == $lang) { return $value[1]; }
+			}
 		}
     }
 

@@ -57,11 +57,12 @@ $document->addStyleSheet(JUri::root() . 'media/com_formularios/css/form.css');
 				<?php echo $this->form->renderField('heading'); ?>
 				<?php echo $this->form->renderField('subheading'); ?>
 				<?php echo $this->form->renderField('email'); ?>
-				<?php echo $this->form->renderField('combo'); ?>
+				<?php echo $this->form->renderField('advanced'); ?>
+				<?php echo $this->form->renderField('child'); ?>
 				<?php echo $this->form->renderField('registered'); ?>
 				<input type="hidden" name="jform[ordering]" value="<?php echo $this->item->ordering; ?>" />
 				<?php echo $this->form->renderField('state'); ?>
-				<?php echo $this->form->renderField('selector'); ?>
+				<?php echo $this->form->renderField('redirect'); ?>
 				<?php echo $this->form->renderField('success_msg'); ?>
 				<?php echo $this->form->renderField('error_msg'); ?>
 				<input type="hidden" name="jform[checked_out]" value="<?php echo JFactory::getUser()->id; ?>" />

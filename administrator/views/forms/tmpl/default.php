@@ -142,7 +142,7 @@ $sortFields = $this->getSortFields();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td>
-					<a class="btn btn-default" href="index.php?option=com_formularios&view=fields&formId=<?= $item->id; ?>"><?= JText::_('COM_FORMULARIOS_FIELDS'); ?></a>
+					<a class="btn btn-primary" href="index.php?option=com_formularios&view=fields&formId=<?= $item->id; ?>"><?= JText::_('COM_FORMULARIOS_FIELDS'); ?></a>
 				</td>
 
 					</tr>

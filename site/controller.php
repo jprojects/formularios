@@ -36,6 +36,7 @@ class FormulariosController extends JControllerLegacy
 
      	$params = JComponentHelper::getParams( 'com_formularios' );
 
+		$store_messages  		= $params->get('store_messages', 0);
 		$newsletter     		= $params->get('newsletter', 0);
 		$newsletter_apikey  	= $params->get('newsletter_apikey', '');
 		$newsletter_listId  	= $params->get('newsletter_listId', '');
@@ -57,23 +58,30 @@ class FormulariosController extends JControllerLegacy
      	$captchaEnabled = $params->get('reCaptcha', 0);
 
      	if($captchaEnabled == 1) {
-		    $captcha 		= $_POST['g-recaptcha-response'];
-		 	$secretKey 		= $params->get('reCaptcha_secretkey');
-			$ip 		    = $_SERVER['REMOTE_ADDR'];
-		    $response	    = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
-		    $responseKeys   = json_decode($response, true);
+
+			$options['secret'] = $params->get('reCaptcha_secretkey');
+			$options['response'] = $_POST['g-recaptcha-response'];
+	
+			$verify = curl_init();
+			curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+			curl_setopt($verify, CURLOPT_POST, true);
+			curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($options));
+			curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+			$response = curl_exec($verify);
+			$responseKeys   = json_decode($response, true);
         }
 
         if($responseKeys['score'] >= 0.6 || $captchaEnabled == 0) {
 		 	//recollim dades necessaries del formulari pare
-		 	$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['type']);
+		 	$db->setQuery('SELECT email, name FROM `#__formularios_forms` WHERE id = '.$data['formId']);
 		 	$row = $db->loadObject();
 
 		 	//recollim tota la informació dels camps del formulari
-		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.$data['type'].' AND state = 1');
+		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.$data['formId'].' AND state = 1');
 		 	$fields = $db->loadObjectList();
 
-		 	$type = $data['type'];
+		 	$formId = $data['formId'];
 
 		 	foreach($fields as $field) {
 		 		//comprovem si hi han camps de tipus file
@@ -94,11 +102,11 @@ class FormulariosController extends JControllerLegacy
 		 	}
 
 		 	//enviem l'email
-		 	unset($data['return'],$data['type'],$data['tos']);
+		 	unset($data['return'],$data['formId'],$data['tos']);
 
-		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$type);
+		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$formId);
 		 	$success = $db->loadResult();
-		 	$db->setQuery('SELECT error_msg FROM `#__formularios_forms` WHERE id = '.$type);
+		 	$db->setQuery('SELECT error_msg FROM `#__formularios_forms` WHERE id = '.$formId);
 		 	$error = $db->loadResult();
 		 	
 		 	$subject = $app->getCfg('sitename').': Nou email rebut desde el formulari '.JText::_($row->name);
@@ -112,18 +120,22 @@ class FormulariosController extends JControllerLegacy
 		 	$send = $this->enviar($subject, $body, $row->email, $attach);
 		 	//$send = $this->enviar($subject, $body, 'kim@aficat.com', $attach);
 
-		 	//insertem el missatge a la base de dades
-		 	$form 					= new stdClass();
-			$form->formId 			= $type;
-			$form->data_missatge  	= date('Y-m-d H:i:s');
-			$form->message    		= $body;
-			$form->state    		= 1;
-			$form->status    		= 0;
-			$form->ordering    		= 0;
-			$form->checked_out    	= 0;
-			$form->checked_out_time = '0000-00-00 00:00:00';
-			$form->created_by    	= 0;
-			$save = $db->insertObject('#__formularios_stored', $form);
+			if($store_messages == 1) {
+				//insertem el missatge a la base de dades
+				$form 					= new stdClass();
+				$form->formId 			= $type;
+				$form->data_missatge  	= date('Y-m-d H:i:s');
+				$form->message    		= $body;
+				$form->state    		= 1;
+				$form->status    		= 0;
+				$form->ordering    		= 0;
+				$form->checked_out    	= 0;
+				$form->checked_out_time = '0000-00-00 00:00:00';
+				$form->created_by    	= 0;
+				$save = $db->insertObject('#__formularios_stored', $form);
+			} else {
+				$save = true;
+			}
 
 			if($send && $save) {
 
@@ -176,6 +188,68 @@ class FormulariosController extends JControllerLegacy
 	 	}
 
 		$this->setRedirect($return, $msg, $type);
+
+	}
+
+	public function saveAdvancedForm()
+	{
+		$db 	= JFactory::getDbo();
+     	$app    = JFactory::getApplication();
+
+     	$params = JComponentHelper::getParams( 'com_formularios' );
+
+     	$data 	= $app->input->post->get('jform', array(), 'array');
+		$step  	= $data['step'];
+     	$save	= $send = false;
+     	$attach = array();
+     	$files  = array();
+     	$notify = '';
+
+     	if($params->get('honeypot', 0) == 1) {
+			if($data['honeypot'] !== "") {
+				return false;
+			}
+		}
+
+     	$captchaEnabled = $params->get('reCaptcha', 0);
+
+     	if($captchaEnabled == 1) {
+		    $captcha 		= $_POST['g-recaptcha-response'];
+		 	$secretKey 		= $params->get('reCaptcha_secretkey');
+			$ip 		    = $_SERVER['REMOTE_ADDR'];
+		    $response	    = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".$secretKey."&response=".$captcha."&remoteip=".$ip);
+		    $responseKeys   = json_decode($response, true);
+        }
+
+        if($responseKeys['score'] >= 0.6 || $captchaEnabled == 0) {
+		 	//recollim dades necessaries del formulari pare
+		 	$db->setQuery('SELECT redirect FROM `#__formularios_forms` WHERE id = '.($step != 0 ? $step : $data['formId']));
+		 	$return = $db->loadResult();
+
+		 	//recollim tota la informació dels camps del formulari
+		 	$db->setQuery('SELECT * FROM `#__formularios_fields` WHERE formId = '.($step != 0 ? $step : $data['formId']).' AND state = 1');
+		 	$fields = $db->loadObjectList();
+
+		 	$formId = $data['formId'];
+
+		 	unset($data['return'],$data['formId'],$data['tos'],$data['step']);
+
+		 	$db->setQuery('SELECT success_msg FROM `#__formularios_forms` WHERE id = '.$formId);
+		 	$success = $db->loadResult();
+		 	$db->setQuery('SELECT error_msg FROM `#__formularios_forms` WHERE id = '.$formId);
+		 	$error = $db->loadResult();
+
+		 	//ToDo: insertem els valors a la base de dades
+		 	
+			$msg = JText::_($success);
+			$type = 'success';
+
+		} else {
+			$msg = JText::_('COM_FORMULARIOS_CAPTCHA_FAIL');
+		   	$type = 'error';
+		}
+
+		$this->setRedirect('index.php?option=com_formularios&view=single&formId='.$formId.'&step='.$return, $msg, $type);
 
 	}
 

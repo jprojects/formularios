@@ -52,6 +52,17 @@
         	description="" 
         	filter="raw"
         />
+		<field 
+    		name="show_privacy" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="1" 
+    		label="Mostra privacitat" 
+    		description="Mostra o amaga la casella de política de privacitat"
+    	>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     	<field name="privacy"
 			type="subform"
 			icon="list"
@@ -124,6 +135,28 @@
     	>
             <option value="primary">Primary</option>
             <option value="secondary">Secondary</option>
+        </field>
+        <field 
+    		name="btn_align" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="start" 
+    		label="Button align" 
+    		description="Align button to left or right"
+    	>
+            <option value="start">Left</option>
+            <option value="end">Right</option>
+        </field>
+		<field 
+    		name="store_messages" 
+    		type="radio" 
+    		class="btn-group btn-group-yesno" 
+    		default="0" 
+    		label="Store messages" 
+    		description="Store messages into database"
+    	>
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
         </field>
 		<field 
     		name="comercial" 
